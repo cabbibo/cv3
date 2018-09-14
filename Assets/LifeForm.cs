@@ -20,7 +20,6 @@ public class LifeForm : Cycle {
     Parents.Add(form);
   }
 
-
   public void AddBirthLife( Life life ){
       BirthLives.Add( life );
   }

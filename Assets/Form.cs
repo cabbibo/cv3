@@ -7,8 +7,6 @@ public class Form : MonoBehaviour {
 
 
   public int count;
-  //public bool debug;
-
   [HideInInspector] public bool intBuffer;
 
   [HideInInspector] public int structSize;
@@ -48,13 +46,6 @@ public class Form : MonoBehaviour {
     created = false;
 
   }
-
-  // Only going to be doing this if they are unlocked
-  // and are shown.
-  public void _DebugShow(){ DebugShow(); }
-
-  public virtual void DebugShow(){}
-
 
   public T[] GetData<T>(){
     T[] array = new T[count];

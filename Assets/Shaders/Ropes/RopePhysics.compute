@@ -33,8 +33,8 @@ struct Base{
 };
 
 
-RWStructuredBuffer<Vert> vertBuffer;
-RWStructuredBuffer<Base> baseBuffer;
+RWStructuredBuffer<Vert> _VertBuffer;
+RWStructuredBuffer<Base> _BaseBuffer;
 
 float3 getVel( float3 p1 , float3 p2 ){
 
@@ -71,13 +71,13 @@ void Set (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uint3 id 
   if( pID < _Count && bID < _BaseCount ){
 
 
-    Vert vert = vertBuffer[pID];
-    Base base = baseBuffer[bID];
+    Vert vert = _VertBuffer[pID];
+    Base base = _BaseBuffer[bID];
 
     vert.pos  = base.pos + base.nor * vert.uv.x + _HairLength;
     vert.oPos = vert.pos;
 
-    vertBuffer[pID] = vert;
+    _VertBuffer[pID] = vert;
 
   }
   
@@ -94,8 +94,8 @@ void Collision (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uin
   uint bID = pID / _NumVertsPerHair;
   if( pID < _Count && bID < _BaseCount ){
 
-    Vert vert = vertBuffer[pID];
-    Base base = baseBuffer[bID];
+    Vert vert = _VertBuffer[pID];
+    Base base = _BaseBuffer[bID];
 
     float3 force = base.nor;//float3( 0 , base.nor , 0.0 );
 
@@ -125,7 +125,7 @@ void Collision (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uin
 
     }
 
-    vertBuffer[pID] = vert;
+    _VertBuffer[pID] = vert;
 
   }
   
@@ -147,11 +147,11 @@ void Constraint(uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uin
   pID = pID + _PassID;
 
   if( pID < uint(_Count) ){
-    Vert v1 = vertBuffer[pID];
+    Vert v1 = _VertBuffer[pID];
 
     // If we are are the end of the hair, no need to do verlet
     if( v1.uv.x > 0 ){
-      Vert v2 = vertBuffer[pID + 1];
+      Vert v2 = _VertBuffer[pID + 1];
 
 
 
@@ -196,8 +196,8 @@ void Constraint(uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uin
 
       }
               // Set both the values in the proper buffer location!
-      vertBuffer[ pID ] = v1;
-      vertBuffer[ pID + 1 ] = v2;
+      _VertBuffer[ pID ] = v1;
+      _VertBuffer[ pID + 1 ] = v2;
 
 
 

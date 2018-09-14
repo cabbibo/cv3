@@ -12,6 +12,8 @@ public class Cycle : MonoBehaviour{
   [ HideInInspector ] public bool died;
   [ HideInInspector ] public bool destroyed;
 
+  public bool debug;
+
   //public delegate void CreateEvents(Cycle c);
   //public event CE CreateEvents;
 
@@ -36,6 +38,8 @@ public class Cycle : MonoBehaviour{
   public virtual void OnDead(){}
 
   public virtual void Destory(){}
+
+  public virtual void WhileDebug(){}
 
 
 }

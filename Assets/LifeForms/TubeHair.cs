@@ -11,10 +11,15 @@ public class TubeHair : LifeForm {
   public ConstraintLife HairConstraint0;
   public ConstraintLife HairConstraint1;
 
-  public Life HairTransfer;
 
   public Form Base;
   public Form Hair;
+ 
+
+
+
+  public Life HairTransfer;
+
   public TubeTriangles TubeTriangles;
   public TubeVerts TubeVerts;
 
@@ -30,14 +35,16 @@ public class TubeHair : LifeForm {
     HairCollision.Create();
     HairConstraint0.Create();
     HairConstraint1.Create();
-    HairTransfer.Create();
 
     Base.Create( Base );
     Hair.Create( Base );
-    TubeTriangles.Create( Hair );
-    TubeVerts.Create( Hair );
 
-    body.Create( TubeVerts, TubeTriangles);
+
+
+    //HairTransfer.Create();
+    //TubeTriangles.Create( Hair );
+    //TubeVerts.Create( Hair );
+    //body.Create( TubeVerts, TubeTriangles);
 
 
 
@@ -53,8 +60,8 @@ public class TubeHair : LifeForm {
     HairConstraint1.BindInt("_Pass" , 1 );
     HairConstraint1.BindPrimaryForm("_VertBuffer", Hair);
 
-    HairTransfer.BindPrimaryForm("_HairBuffer", Hair);
-    HairTransfer.BindForm("_HairBuffer", Hair);
+    //HairTransfer.BindPrimaryForm("_HairBuffer", Hair);
+    //HairTransfer.BindForm("_HairBuffer", Hair);
 
   }
 
@@ -62,15 +69,15 @@ public class TubeHair : LifeForm {
 
     Base.OnGestate( Base );
     Hair.OnGestate( Base );
-    TubeTriangles.OnGestate( Hair );
-    TubeVerts.OnGestate( Hair );
+    //TubeTriangles.OnGestate( Hair );
+    //TubeVerts.OnGestate( Hair );
 
   }
 
 
   public override void OnBirth(){
     SetHairPosition.Live();
-    body.Show();
+    //body.Show();
   }
 
   public override void WhileAlive(float v){
@@ -78,7 +85,7 @@ public class TubeHair : LifeForm {
     HairCollision.Live();
     HairConstraint0.Live();
     HairConstraint1.Live();
-    HairTransfer.Live();
+    //HairTransfer.Live();
 
   }
 

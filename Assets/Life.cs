@@ -24,6 +24,7 @@ public class Life : MonoBehaviour {
 
   public void Create(){
      boundForms = new Dictionary<string, Form>();
+     boundInts = new Dictionary<string, int>();
      FindKernel();
      GetNumThreads();
      OnCreate();

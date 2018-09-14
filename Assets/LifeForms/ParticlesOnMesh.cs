@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ParticlesOnMesh : Form {
+public class ParticlesOnMesh : Particles {
   public MeshFilter mesh;
 
   public override void SetStructSize( Form parent ){ structSize = 16; }
@@ -13,7 +13,6 @@ public class ParticlesOnMesh : Form {
     Vector2[] uvs = mesh.mesh.uv;
     Vector4[] tans = mesh.mesh.tangents;
     Vector3[] nors = mesh.mesh.normals;
-
 
     float[] triangleAreas = new float[triangles.Length / 3];
     float totalArea = 0;
@@ -42,7 +41,7 @@ public class ParticlesOnMesh : Form {
       triangleAreas[i] /= totalArea;
     }
 
-    float[] values = new float[count];
+    float[] values = new float[count*structSize];
 
     int index = 0;
 
@@ -53,13 +52,16 @@ public class ParticlesOnMesh : Form {
     Vector3 nor;
     int baseTri;
 
-
     for( int i = 0; i < count; i ++ ){
 
       baseTri = 3 * HELP.getTri (Random.value, triangleAreas);
       tri0 = baseTri + 0;
       tri1 = baseTri + 1;
       tri2 = baseTri + 2;
+
+      tri0 = triangles[tri0];
+      tri1 = triangles[tri1];
+      tri2 = triangles[tri2];
 
       pos = HELP.GetRandomPointInTriangle(i, verts[tri0], verts[tri1], verts[tri2]);
 
@@ -102,8 +104,6 @@ public class ParticlesOnMesh : Form {
 
       values[ index ++ ] = i;
       values[ index ++ ] = i/count;
-
-
 
     }
 

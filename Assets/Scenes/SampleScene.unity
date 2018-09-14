@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657856, g: 0.49641234, b: 0.57481724, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -304,7 +304,7 @@ MonoBehaviour:
   HairConstraint0: {fileID: 569257209}
   HairConstraint1: {fileID: 569257208}
   HairTransfer: {fileID: 1513476643}
-  Base: {fileID: 1799198625}
+  Base: {fileID: 1799198627}
   Hair: {fileID: 569257207}
   TubeTriangles: {fileID: 1513476642}
   TubeVerts: {fileID: 1513476641}
@@ -356,8 +356,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   primaryName: 
   primaryForm: {fileID: 0}
-  shader: {fileID: 0}
-  kernelName: 
+  shader: {fileID: 7200000, guid: 54c920e8cd627b047b56ccab3e5bfca6, type: 3}
+  kernelName: Constraint
   kernel: 0
 --- !u!114 &569257209
 MonoBehaviour:
@@ -372,8 +372,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   primaryName: 
   primaryForm: {fileID: 0}
-  shader: {fileID: 0}
-  kernelName: 
+  shader: {fileID: 7200000, guid: 54c920e8cd627b047b56ccab3e5bfca6, type: 3}
+  kernelName: Constraint
   kernel: 0
 --- !u!114 &569257210
 MonoBehaviour:
@@ -388,8 +388,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   primaryName: 
   primaryForm: {fileID: 0}
-  shader: {fileID: 0}
-  kernelName: 
+  shader: {fileID: 7200000, guid: 54c920e8cd627b047b56ccab3e5bfca6, type: 3}
+  kernelName: Collision
   kernel: 0
 --- !u!114 &569257211
 MonoBehaviour:
@@ -404,8 +404,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   primaryName: 
   primaryForm: {fileID: 0}
-  shader: {fileID: 0}
-  kernelName: 
+  shader: {fileID: 7200000, guid: 54c920e8cd627b047b56ccab3e5bfca6, type: 3}
+  kernelName: Set
   kernel: 0
 --- !u!1 &1513476638
 GameObject:
@@ -514,6 +514,48 @@ MonoBehaviour:
   shader: {fileID: 0}
   kernelName: 
   kernel: 0
+--- !u!1 &1620113716
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1620113718}
+  - component: {fileID: 1620113717}
+  m_Layer: 0
+  m_Name: God
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1620113717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1620113716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5275e758d8f43154483b631ed73b77d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cycles:
+  - {fileID: 569257205}
+--- !u!4 &1620113718
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1620113716}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.02400589, y: 0.6397431, z: 2.3547006}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1627666989
 Prefab:
   m_ObjectHideFlags: 0
@@ -578,7 +620,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1799198626}
-  - component: {fileID: 1799198625}
   - component: {fileID: 1799198627}
   m_Layer: 0
   m_Name: ParticlesOnMesh
@@ -587,24 +628,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1799198625
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1799198624}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06bd152514a79c84597ea6ff5c7a3282, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  count: 100
-  intBuffer: 0
-  structSize: 0
-  description: 
-  timeToCreate: 0
-  totalMemory: 0
-  created: 0
 --- !u!4 &1799198626
 Transform:
   m_ObjectHideFlags: 0
@@ -630,7 +653,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b031183d352ffb44a454552c3368720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  count: 0
+  count: 1000
   intBuffer: 0
   structSize: 0
   description: 
