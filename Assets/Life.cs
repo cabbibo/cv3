@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Life : MonoBehaviour {
+public class Life : Cycle {
 
   [HideInInspector] public string primaryName;
   [HideInInspector] public Form primaryForm;
   public ComputeShader shader;
   public string kernelName;
   [HideInInspector] public int kernel;
+  [HideInInspector] public float executionTime;
 
   public Dictionary<string, Form> boundForms;
   public Dictionary<string, int> boundInts;
@@ -22,7 +23,7 @@ public class Life : MonoBehaviour {
   public delegate void SetValues(ComputeShader shader, int kernel);
   public event SetValues OnSetValues;
 
-  public void Create(){
+  public override void Create(){
      boundForms = new Dictionary<string, Form>();
      boundInts = new Dictionary<string, int>();
      FindKernel();
@@ -87,6 +88,7 @@ public class Life : MonoBehaviour {
 
     // if its still true than we can dispatch
     if ( allBuffersSet ){
+      if( debug ) print( "name : " + kernelName + " Num groups : " + numGroups );
       shader.Dispatch( kernel,numGroups ,1,1);
     }
 
@@ -99,9 +101,10 @@ public class Life : MonoBehaviour {
   private void SetBuffer(string name , Form form){
       if( form._buffer != null ){
         shader.SetBuffer( kernel , name , form._buffer);
+        shader.SetInt(name+"_COUNT" , form.count );
       }else{
         allBuffersSet = false;
-        Debug.Log("YOUR BUFFER : " + name +  " IS NULL!");
+        print("YOUR BUFFER : " + name +  " IS NULL!");
       }
   }
 

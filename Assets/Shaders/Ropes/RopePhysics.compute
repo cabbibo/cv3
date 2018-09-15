@@ -5,13 +5,11 @@
 #include "../Chunks/noise.cginc"
 float _Delta;
 float _Time;
-uint _Count;
 uint _PassID;
 float _SpringDistance;
 
 uint _NumVertsPerHair;
-uint _HairLength;
-uint _BaseCount;
+float _HairLength;
 
 struct Vert{
   float3 pos;
@@ -35,6 +33,9 @@ struct Base{
 
 RWStructuredBuffer<Vert> _VertBuffer;
 RWStructuredBuffer<Base> _BaseBuffer;
+
+int _VertBuffer_COUNT;
+int _BaseBuffer_COUNT;
 
 float3 getVel( float3 p1 , float3 p2 ){
 
@@ -68,14 +69,15 @@ void Set (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uint3 id 
 
   uint pID = threadID + u3GroupID.x * NR_THREADS;
   uint bID = pID / _NumVertsPerHair;
-  if( pID < _Count && bID < _BaseCount ){
+  if( pID < _VertBuffer_COUNT && bID < _BaseBuffer_COUNT ){
 
 
     Vert vert = _VertBuffer[pID];
     Base base = _BaseBuffer[bID];
 
-    vert.pos  = base.pos + base.nor * vert.uv.x + _HairLength;
-    vert.oPos = vert.pos;
+    float l = float(pID % _NumVertsPerHair ) / float(_NumVertsPerHair);
+    vert.pos  = base.pos + base.nor * l *.1 + _HairLength;
+   // vert.oPos = base.pos + base.nor * l + _HairLength;
 
     _VertBuffer[pID] = vert;
 
@@ -92,7 +94,7 @@ void Collision (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uin
 
   uint pID = threadID + u3GroupID.x * NR_THREADS;
   uint bID = pID / _NumVertsPerHair;
-  if( pID < _Count && bID < _BaseCount ){
+  if( pID < _VertBuffer_COUNT && bID < _BaseBuffer_COUNT ){
 
     Vert vert = _VertBuffer[pID];
     Base base = _BaseBuffer[bID];
@@ -146,7 +148,7 @@ void Constraint(uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uin
   pID = pID * 2;
   pID = pID + _PassID;
 
-  if( pID < uint(_Count) ){
+  if( pID < uint(_VertBuffer_COUNT) ){
     Vert v1 = _VertBuffer[pID];
 
     // If we are are the end of the hair, no need to do verlet

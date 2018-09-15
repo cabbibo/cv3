@@ -13,7 +13,7 @@ public class TubeHair : LifeForm {
 
 
   public Form Base;
-  public Form Hair;
+  public Hair Hair;
  
 
 
@@ -31,13 +31,22 @@ public class TubeHair : LifeForm {
       All of this info should be visualizable!
     */
 
-    SetHairPosition.Create();
-    HairCollision.Create();
-    HairConstraint0.Create();
-    HairConstraint1.Create();
+    Lifes.Add( SetHairPosition );
+    Lifes.Add( HairCollision );
+    Lifes.Add( HairConstraint0 );
+    Lifes.Add( HairConstraint1 );
 
-    Base.Create( Base );
-    Hair.Create( Base );
+    Forms.Add( Base );
+    Forms.Add( Hair );
+
+
+    SetHairPosition._Create();
+    HairCollision._Create();
+    HairConstraint0._Create();
+    HairConstraint1._Create();
+
+    Base._Create( Base );
+    Hair._Create( Base );
 
 
 
@@ -54,6 +63,7 @@ public class TubeHair : LifeForm {
     HairCollision.BindPrimaryForm("_VertBuffer", Hair);
     HairCollision.BindForm("_BaseBuffer", Base );
 
+
     HairConstraint0.BindInt("_Pass" , 0 );
     HairConstraint0.BindPrimaryForm("_VertBuffer", Hair);
 
@@ -67,8 +77,8 @@ public class TubeHair : LifeForm {
 
   public override void OnGestate(){
 
-    Base.OnGestate( Base );
-    Hair.OnGestate( Base );
+    Base._OnGestate( Base );
+    Hair._OnGestate( Base );
     //TubeTriangles.OnGestate( Hair );
     //TubeVerts.OnGestate( Hair );
 
@@ -76,18 +86,24 @@ public class TubeHair : LifeForm {
 
 
   public override void OnBirth(){
+    print("birth");
+    SetHairPosition.shader.SetFloat("_HairLength", .4f); 
+    SetHairPosition.shader.SetInt("_NumVertsPerHair", Hair.length); 
     SetHairPosition.Live();
     //body.Show();
   }
 
-  public override void WhileAlive(float v){
+  public override void WhileLiving(float v){
 
-    HairCollision.Live();
-    HairConstraint0.Live();
-    HairConstraint1.Live();
+   //HairCollision.Live();
+   //HairConstraint0.Live();
+   //HairConstraint1.Live();
     //HairTransfer.Live();
 
   }
 
+  public override void WhileDebug(){
+    Base.WhileDebug();
+  }
 
 }

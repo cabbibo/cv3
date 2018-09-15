@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ParticlesOnMesh : Particles {
+  
   public MeshFilter mesh;
 
   public override void SetStructSize( Form parent ){ structSize = 16; }
@@ -63,6 +64,8 @@ public class ParticlesOnMesh : Particles {
       tri1 = triangles[tri1];
       tri2 = triangles[tri2];
 
+
+
       pos = HELP.GetRandomPointInTriangle(i, verts[tri0], verts[tri1], verts[tri2]);
 
       float a0 = HELP.AreaOfTriangle(pos, verts[tri1], verts[tri2]);
@@ -82,7 +85,7 @@ public class ParticlesOnMesh : Particles {
       pos = mesh.gameObject.transform.TransformPoint( pos );
       nor = mesh.gameObject.transform.TransformDirection( nor );
       tan = mesh.gameObject.transform.TransformDirection( tan );
-      
+//            print( pos);
       values[ index ++ ] = pos.x;
       values[ index ++ ] = pos.y;
       values[ index ++ ] = pos.z;

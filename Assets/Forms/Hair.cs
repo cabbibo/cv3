@@ -11,8 +11,12 @@ public class Hair: Form {
 
   public override void SetCount( Form parent ){
     numHairs = parent.count;
-    count = numHairs * length;
+    count = numHairs * length; 
   }
+
+ /* public override void WhileDebug(){
+
+  }*/
 
 }
 

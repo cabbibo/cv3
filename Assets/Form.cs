@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Form : MonoBehaviour {
+public class Form : Cycle {
 
 
   public int count;
+
   [HideInInspector] public bool intBuffer;
 
   [HideInInspector] public int structSize;
@@ -17,21 +18,24 @@ public class Form : MonoBehaviour {
   [HideInInspector] public float timeToCreate;
   [HideInInspector] public int totalMemory;  
   
-  [HideInInspector] public bool created;
 
-  public void Create(Form parent){
+
+
+  public Material debugMaterial;
+
+  public virtual void _Create(Form parent){
+    _Create();
+    debugMaterial = new Material( debugMaterial );
     SetStructSize( parent );
     SetCount( parent );
     SetBufferType();
   }
 
-  public void OnGestate(Form parent){
+  public virtual void _OnGestate(Form parent){
     
-      _buffer = MakeBuffer();
-
-      created = true;
-
-      Embody(parent);
+    _OnGestate();
+    _buffer = MakeBuffer();
+    Embody(parent);
 
   }
 
@@ -40,7 +44,7 @@ public class Form : MonoBehaviour {
   public virtual void SetStructSize( Form parent ){}
   public virtual void SetBufferType(){}
 
-  public void Final(){
+  public override void Destroy(){
 
     ReleaseBuffer();
     created = false;
@@ -68,6 +72,15 @@ public class Form : MonoBehaviour {
 
   public void ReleaseBuffer(){
    if(_buffer != null){ _buffer.Release(); }
+  }
+
+  public override void WhileDebug(){
+    //print(count);
+
+    debugMaterial.SetPass(0);
+    debugMaterial.SetBuffer("_vertBuffer", _buffer);
+    debugMaterial.SetInt("_Count",count);
+    Graphics.DrawProcedural(MeshTopology.Triangles, count * 3 * 2 );
   }
 
 }

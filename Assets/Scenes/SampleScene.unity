@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657856, g: 0.49641234, b: 0.57481724, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -113,72 +113,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &170076733
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 170076735}
-  - component: {fileID: 170076734}
-  m_Layer: 0
-  m_Name: Directional Light
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!108 &170076734
-Light:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 170076733}
-  m_Enabled: 1
-  serializedVersion: 8
-  m_Type: 1
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 1
-  m_Range: 10
-  m_SpotAngle: 30
-  m_CookieSize: 10
-  m_Shadows:
-    m_Type: 2
-    m_Resolution: -1
-    m_CustomResolution: -1
-    m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
-  m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
-  m_Flare: {fileID: 0}
-  m_RenderMode: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_Lightmapping: 1
-  m_LightShadowCasterMode: 0
-  m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
-  m_ColorTemperature: 6570
-  m_UseColorTemperature: 0
-  m_ShadowRadius: 0
-  m_ShadowAngle: 0
---- !u!4 &170076735
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 170076733}
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &534669902
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,23 +223,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   created: 0
+  begunGestation: 0
+  gestating: 0
   gestated: 0
+  begunBirth: 0
   birthed: 0
-  awaked: 0
+  birthing: 0
+  begunLive: 0
+  living: 0
+  lived: 0
+  begunDeath: 0
+  dying: 0
   died: 0
   destroyed: 0
-  BirthLives: []
-  AliveLives: []
-  DeathLives: []
-  Children: []
-  Parents: []
+  debug: 0
+  Lifes: []
+  Forms: []
   SetHairPosition: {fileID: 569257211}
   HairCollision: {fileID: 569257210}
   HairConstraint0: {fileID: 569257209}
   HairConstraint1: {fileID: 569257208}
-  HairTransfer: {fileID: 1513476643}
   Base: {fileID: 1799198627}
   Hair: {fileID: 569257207}
+  HairTransfer: {fileID: 1513476643}
   TubeTriangles: {fileID: 1513476642}
   TubeVerts: {fileID: 1513476641}
   body: {fileID: 1513476639}
@@ -321,7 +261,7 @@ Transform:
   m_Children:
   - {fileID: 1513476640}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &569257207
 MonoBehaviour:
@@ -334,13 +274,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c8e8ad1e2189bf4f855dccc19a13c7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  created: 0
+  begunGestation: 0
+  gestating: 0
+  gestated: 0
+  begunBirth: 0
+  birthed: 0
+  birthing: 0
+  begunLive: 0
+  living: 0
+  lived: 0
+  begunDeath: 0
+  dying: 0
+  died: 0
+  destroyed: 0
+  debug: 1
   count: 0
   intBuffer: 0
   structSize: 0
   description: 
   timeToCreate: 0
   totalMemory: 0
-  created: 0
+  debugMaterial: {fileID: 2100000, guid: bfdba931e444ed946a647d01a3fac6e5, type: 2}
   length: 10
   numHairs: 0
 --- !u!114 &569257208
@@ -354,11 +309,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed243af0e768bc34fbc125e59c6247b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  created: 0
+  begunGestation: 0
+  gestating: 0
+  gestated: 0
+  begunBirth: 0
+  birthed: 0
+  birthing: 0
+  begunLive: 0
+  living: 0
+  lived: 0
+  begunDeath: 0
+  dying: 0
+  died: 0
+  destroyed: 0
+  debug: 0
   primaryName: 
   primaryForm: {fileID: 0}
   shader: {fileID: 7200000, guid: 54c920e8cd627b047b56ccab3e5bfca6, type: 3}
   kernelName: Constraint
   kernel: 0
+  executionTime: 0
 --- !u!114 &569257209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,11 +341,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed243af0e768bc34fbc125e59c6247b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  created: 0
+  begunGestation: 0
+  gestating: 0
+  gestated: 0
+  begunBirth: 0
+  birthed: 0
+  birthing: 0
+  begunLive: 0
+  living: 0
+  lived: 0
+  begunDeath: 0
+  dying: 0
+  died: 0
+  destroyed: 0
+  debug: 0
   primaryName: 
   primaryForm: {fileID: 0}
   shader: {fileID: 7200000, guid: 54c920e8cd627b047b56ccab3e5bfca6, type: 3}
   kernelName: Constraint
   kernel: 0
+  executionTime: 0
 --- !u!114 &569257210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386,11 +373,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 521ed2d62d2034941a1197389f9c70d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  created: 0
+  begunGestation: 0
+  gestating: 0
+  gestated: 0
+  begunBirth: 0
+  birthed: 0
+  birthing: 0
+  begunLive: 0
+  living: 0
+  lived: 0
+  begunDeath: 0
+  dying: 0
+  died: 0
+  destroyed: 0
+  debug: 0
   primaryName: 
   primaryForm: {fileID: 0}
   shader: {fileID: 7200000, guid: 54c920e8cd627b047b56ccab3e5bfca6, type: 3}
   kernelName: Collision
   kernel: 0
+  executionTime: 0
 --- !u!114 &569257211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -402,11 +405,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 521ed2d62d2034941a1197389f9c70d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  created: 0
+  begunGestation: 0
+  gestating: 0
+  gestated: 0
+  begunBirth: 0
+  birthed: 0
+  birthing: 0
+  begunLive: 0
+  living: 0
+  lived: 0
+  begunDeath: 0
+  dying: 0
+  died: 0
+  destroyed: 0
+  debug: 1
   primaryName: 
   primaryForm: {fileID: 0}
   shader: {fileID: 7200000, guid: 54c920e8cd627b047b56ccab3e5bfca6, type: 3}
   kernelName: Set
   kernel: 0
+  executionTime: 0
 --- !u!1 &1513476638
 GameObject:
   m_ObjectHideFlags: 0
@@ -466,13 +485,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc52dc505840d30499d35efc242c05f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  created: 0
+  begunGestation: 0
+  gestating: 0
+  gestated: 0
+  begunBirth: 0
+  birthed: 0
+  birthing: 0
+  begunLive: 0
+  living: 0
+  lived: 0
+  begunDeath: 0
+  dying: 0
+  died: 0
+  destroyed: 0
+  debug: 0
   count: 0
   intBuffer: 0
   structSize: 6
   description: 
   timeToCreate: 0
   totalMemory: 0
-  created: 0
+  debugMaterial: {fileID: 0}
   width: 6
   length: 0
   numTubes: 0
@@ -487,13 +521,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae4d414b03ee09e48af6b289ac5f8947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  created: 0
+  begunGestation: 0
+  gestating: 0
+  gestated: 0
+  begunBirth: 0
+  birthed: 0
+  birthing: 0
+  begunLive: 0
+  living: 0
+  lived: 0
+  begunDeath: 0
+  dying: 0
+  died: 0
+  destroyed: 0
+  debug: 0
   count: 0
   intBuffer: 0
   structSize: 1
   description: 
   timeToCreate: 0
   totalMemory: 0
-  created: 0
+  debugMaterial: {fileID: 0}
   width: 0
   length: 0
   numTubes: 0
@@ -509,11 +558,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 521ed2d62d2034941a1197389f9c70d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  created: 0
+  begunGestation: 0
+  gestating: 0
+  gestated: 0
+  begunBirth: 0
+  birthed: 0
+  birthing: 0
+  begunLive: 0
+  living: 0
+  lived: 0
+  begunDeath: 0
+  dying: 0
+  died: 0
+  destroyed: 0
+  debug: 0
   primaryName: 
   primaryForm: {fileID: 0}
   shader: {fileID: 0}
   kernelName: 
   kernel: 0
+  executionTime: 0
 --- !u!1 &1620113716
 GameObject:
   m_ObjectHideFlags: 0
@@ -541,7 +606,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5275e758d8f43154483b631ed73b77d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cycles:
+  created: 0
+  begunGestation: 0
+  gestating: 0
+  gestated: 0
+  begunBirth: 0
+  birthed: 0
+  birthing: 0
+  begunLive: 0
+  living: 0
+  lived: 0
+  begunDeath: 0
+  dying: 0
+  died: 0
+  destroyed: 0
+  debug: 1
+  lifeforms:
   - {fileID: 569257205}
 --- !u!4 &1620113718
 Transform:
@@ -554,7 +634,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1627666989
 Prefab:
@@ -634,14 +714,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1799198624}
-  m_LocalRotation: {x: -0.23884107, y: 0.1370855, z: -0.46257117, w: 0.842728}
-  m_LocalPosition: {x: -1.1894538, y: -0.659125, z: -1.5842078}
+  m_LocalRotation: {x: -0.27394626, y: 0.028123809, z: -0.07993525, w: 0.9580047}
+  m_LocalPosition: {x: 0.6342704, y: -0.32897544, z: -3.397}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1627666990}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: -16.006, y: 28.050001, z: -61.547005}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: -31.358002, y: 6.5680003, z: -11.385}
 --- !u!114 &1799198627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -653,11 +733,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b031183d352ffb44a454552c3368720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  created: 0
+  begunGestation: 0
+  gestating: 0
+  gestated: 0
+  begunBirth: 0
+  birthed: 0
+  birthing: 0
+  begunLive: 0
+  living: 0
+  lived: 0
+  begunDeath: 0
+  dying: 0
+  died: 0
+  destroyed: 0
+  debug: 1
   count: 1000
   intBuffer: 0
   structSize: 0
   description: 
   timeToCreate: 0
   totalMemory: 0
-  created: 0
+  debugMaterial: {fileID: 2100000, guid: bfdba931e444ed946a647d01a3fac6e5, type: 2}
   mesh: {fileID: 1627666991}
