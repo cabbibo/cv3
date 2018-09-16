@@ -75,6 +75,9 @@ public class Life : Cycle {
     // untrue as needed
     allBuffersSet = true;
 
+    shader.SetFloat("_Time", Time.time);
+    shader.SetFloat("_Delta", Time.deltaTime);
+
 
     foreach(KeyValuePair<string,Form> form in boundForms){
       SetBuffer(form.Key , form.Value);

@@ -3,9 +3,13 @@
 #pragma kernel Constraint
 
 #include "../Chunks/noise.cginc"
+#include "../Chunks/snoise.cginc"
+#include "../Chunks/curlNoise.cginc"
+
+
 float _Delta;
 float _Time;
-uint _PassID;
+uint _Pass;
 float _SpringDistance;
 
 uint _NumVertsPerHair;
@@ -34,8 +38,8 @@ struct Base{
 RWStructuredBuffer<Vert> _VertBuffer;
 RWStructuredBuffer<Base> _BaseBuffer;
 
-int _VertBuffer_COUNT;
-int _BaseBuffer_COUNT;
+uint _VertBuffer_COUNT;
+uint _BaseBuffer_COUNT;
 
 float3 getVel( float3 p1 , float3 p2 ){
 
@@ -76,8 +80,9 @@ void Set (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uint3 id 
     Base base = _BaseBuffer[bID];
 
     float l = float(pID % _NumVertsPerHair ) / float(_NumVertsPerHair);
-    vert.pos  = base.pos + base.nor * l *.1 + _HairLength;
-   // vert.oPos = base.pos + base.nor * l + _HairLength;
+    vert.pos  = base.pos + base.nor * l *( _HairLength /float(_NumVertsPerHair));
+    vert.uv = float2( l , float(bID)/float(_BaseBuffer_COUNT));
+    vert.oPos = vert.pos;//base.pos + base.nor * l + _HairLength;
 
     _VertBuffer[pID] = vert;
 
@@ -99,8 +104,9 @@ void Collision (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uin
     Vert vert = _VertBuffer[pID];
     Base base = _BaseBuffer[bID];
 
-    float3 force = base.nor;//float3( 0 , base.nor , 0.0 );
+    float3 force = base.nor * 1.1;//float3( 0 , base.nor , 0.0 );
 
+    force += curlNoise( vert.pos * 1 + float3(0,_Time,0) );
     // Inertia: objects in motion stay in motion.
     float3 vel = getVel( vert.pos , vert.oPos);
 
@@ -119,7 +125,7 @@ void Collision (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uin
 
     if( _Delta  < .1 && tb == false ){
 
-      float dampening = .97;//.99999;// - vert.life * .01;
+      float dampening = .9;//.99999;// - vert.life * .01;
       float3 next = vert.pos + vel * dampening + force * _Delta * _Delta;
 
       vert.oPos = vert.pos;
@@ -146,13 +152,13 @@ void Constraint(uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uin
   // Since we are doing 2 passes for verlet, multiply by 2 
   // to get both the vertices!
   pID = pID * 2;
-  pID = pID + _PassID;
+  pID = pID + _Pass;
 
   if( pID < uint(_VertBuffer_COUNT) ){
     Vert v1 = _VertBuffer[pID];
 
     // If we are are the end of the hair, no need to do verlet
-    if( v1.uv.x > 0 ){
+    if( v1.uv.x < 1-(1/ float(_NumVertsPerHair))){
       Vert v2 = _VertBuffer[pID + 1];
 
 
@@ -168,7 +174,7 @@ void Constraint(uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uin
       // We want to make sure that l isn't zero, 
       // or we will get some NaNs
       if( l > 0.001 ){
-        difference = ( _SpringDistance - l ) / l;
+        difference = ((_HairLength/float(_NumVertsPerHair)) - l ) / l;
       }
 
       // Here is where the actual verlet goes down!
@@ -181,22 +187,17 @@ void Constraint(uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uin
       float3 n2 = v2.pos - t2;
 
 
-      if( v2.uv.x >= 0 ){
-        if( v1.uv.x < 0 ){
-          v1.pos = v1.pos;
-          v2.pos = n2 - t2;
-        }else{
-          // move towards
-          v1.pos = n1;
-          v2.pos = n2;
-        }
-        
+  
+      if( v1.uv.x == 0 ){
+        v1.pos = v1.pos;
+        v2.pos = n2 - t2;
       }else{
-        // just move towards
-        v1.pos = n1+t1;
-        v2.pos = v2.pos;
-
+        // move towards
+        v1.pos = n1;
+        v2.pos = n2;
       }
+        
+
               // Set both the values in the proper buffer location!
       _VertBuffer[ pID ] = v1;
       _VertBuffer[ pID + 1 ] = v2;

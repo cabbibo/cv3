@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Point 16 Debug
-  m_Shader: {fileID: 4800000, guid: b7fc993a5441e8a4caa75f72f2b3ab98, type: 3}
+  m_Name: Line 16 Debug blue
+  m_Shader: {fileID: 4800000, guid: 73a0c623fe1714ccc8ee8a7bedcb1ba3, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -72,5 +72,5 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.5447296, g: 1, b: 0, a: 1}
+    - _Color: {r: 0.2028302, g: 0.23114097, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

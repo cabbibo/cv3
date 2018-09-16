@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.37312013, g: 0.3807403, b: 0.35872707, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -296,7 +296,9 @@ MonoBehaviour:
   timeToCreate: 0
   totalMemory: 0
   debugMaterial: {fileID: 2100000, guid: bfdba931e444ed946a647d01a3fac6e5, type: 2}
-  length: 10
+  numVertsPerHair: 10
+  length: 0.3
+  lineDebugMaterial: {fileID: 2100000, guid: f1f63776814044a26b4b2b64672ffd72, type: 2}
   numHairs: 0
 --- !u!114 &569257208
 MonoBehaviour:
@@ -754,5 +756,5 @@ MonoBehaviour:
   description: 
   timeToCreate: 0
   totalMemory: 0
-  debugMaterial: {fileID: 2100000, guid: bfdba931e444ed946a647d01a3fac6e5, type: 2}
+  debugMaterial: {fileID: 2100000, guid: 2d2db4c4fed294f37b58a496d7212c18, type: 2}
   mesh: {fileID: 1627666991}

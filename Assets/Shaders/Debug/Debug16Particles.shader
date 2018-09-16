@@ -1,5 +1,7 @@
 ﻿Shader "Debug/16StructParticles" {
 	Properties {
+
+    _Color ("Color", Color) = (1,1,1,1)
 		}
 
 
@@ -99,7 +101,7 @@ struct Vert{
 
          
           //col = float3( v.uv.x , v.uv.y , .5);
-          return float4( col, 1 );
+          return float4( _Color, 1 );
 
       }
 

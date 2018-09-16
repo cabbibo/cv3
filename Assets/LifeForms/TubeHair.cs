@@ -1,4 +1,4 @@
-﻿
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -48,6 +48,8 @@ public class TubeHair : LifeForm {
     Base._Create( Base );
     Hair._Create( Base );
 
+    print( Base.["count"]);
+
 
 
     //HairTransfer.Create();
@@ -61,8 +63,7 @@ public class TubeHair : LifeForm {
     SetHairPosition.BindForm("_BaseBuffer", Base );
 
     HairCollision.BindPrimaryForm("_VertBuffer", Hair);
-    HairCollision.BindForm("_BaseBuffer", Base );
-
+    HairCollision.BindForm("_BaseBuffer", Base ); 
 
     HairConstraint0.BindInt("_Pass" , 0 );
     HairConstraint0.BindPrimaryForm("_VertBuffer", Hair);
@@ -87,17 +88,21 @@ public class TubeHair : LifeForm {
 
   public override void OnBirth(){
     print("birth");
-    SetHairPosition.shader.SetFloat("_HairLength", .4f); 
-    SetHairPosition.shader.SetInt("_NumVertsPerHair", Hair.length); 
+    SetHairPosition.shader.SetFloat("_HairLength", Hair.length ); 
+    SetHairPosition.shader.SetInt("_NumVertsPerHair", Hair.numVertsPerHair); 
     SetHairPosition.Live();
     //body.Show();
   }
 
   public override void WhileLiving(float v){
 
-   //HairCollision.Live();
-   //HairConstraint0.Live();
-   //HairConstraint1.Live();
+
+
+   HairCollision.shader.SetFloat("_HairLength", Hair.length ); 
+   HairCollision.shader.SetInt("_NumVertsPerHair", Hair.numVertsPerHair); 
+   HairCollision.Live();
+   HairConstraint0.Live();
+   HairConstraint1.Live();
     //HairTransfer.Live();
 
   }
