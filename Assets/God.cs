@@ -78,6 +78,7 @@ public class God :  Cycle  {
       }
       if( lifeforms[i].living == true ){
         lifeforms[i]._WhileLiving(1);
+        
       }
       if( lifeforms[i].dying == true ){
         lifeforms[i]._WhileDying(1);

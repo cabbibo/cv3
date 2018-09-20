@@ -295,7 +295,7 @@ MonoBehaviour:
   description: 
   timeToCreate: 0
   totalMemory: 0
-  debugMaterial: {fileID: 2100000, guid: bfdba931e444ed946a647d01a3fac6e5, type: 2}
+  debugMaterial: {fileID: 2100000, guid: 5ec31fc377d637845bc7b451b442e217, type: 2}
   numVertsPerHair: 10
   length: 1
   lineDebugMaterial: {fileID: 2100000, guid: f1f63776814044a26b4b2b64672ffd72, type: 2}
@@ -446,7 +446,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1513476639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -458,9 +458,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cc511694b37ef44084674021bf8914e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  created: 0
+  begunGestation: 0
+  gestating: 0
+  gestated: 0
+  begunBirth: 0
+  birthed: 0
+  birthing: 0
+  begunLive: 0
+  living: 0
+  lived: 0
+  begunDeath: 0
+  dying: 0
+  died: 0
+  destroyed: 0
+  debug: 0
   render: {fileID: 0}
   mesh: {fileID: 0}
-  material: {fileID: 0}
+  material: {fileID: 2100000, guid: ff16a3594cb78b74285a8131c9c83abd, type: 2}
   triangles: {fileID: 1513476642}
   verts: {fileID: 1513476641}
 --- !u!4 &1513476640
@@ -508,9 +523,9 @@ MonoBehaviour:
   description: 
   timeToCreate: 0
   totalMemory: 0
-  debugMaterial: {fileID: 0}
-  width: 6
-  length: 10
+  debugMaterial: {fileID: 2100000, guid: 9d5146d484f807743928932f86d26484, type: 2}
+  width: 3
+  length: 15
   numTubes: 0
 --- !u!114 &1513476642
 MonoBehaviour:
@@ -537,14 +552,15 @@ MonoBehaviour:
   dying: 0
   died: 0
   destroyed: 0
-  debug: 0
+  debug: 1
   count: 0
   intBuffer: 0
   structSize: 1
   description: 
   timeToCreate: 0
   totalMemory: 0
-  debugMaterial: {fileID: 0}
+  debugMaterial: {fileID: 2100000, guid: a26208c937c775a469f0791f9e50c4fd, type: 2}
+  toIndex: {fileID: 0}
   width: 0
   length: 0
   numTubes: 0
@@ -577,8 +593,8 @@ MonoBehaviour:
   debug: 0
   primaryName: 
   primaryForm: {fileID: 0}
-  shader: {fileID: 0}
-  kernelName: 
+  shader: {fileID: 7200000, guid: 33c1957f7dc70ed44afcaa54e4d84167, type: 3}
+  kernelName: Transfer
   kernel: 0
   executionTime: 0
 --- !u!1 &1620113716
@@ -717,7 +733,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1799198624}
   m_LocalRotation: {x: -0.27394626, y: 0.028123809, z: -0.07993525, w: 0.9580047}
-  m_LocalPosition: {x: 0.6342704, y: -0.32897544, z: -3.397}
+  m_LocalPosition: {x: 2.904, y: -0.32897544, z: -3.397}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1627666990}

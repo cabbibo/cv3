@@ -50,7 +50,6 @@ struct Vert{
           float3 eye      : TEXCOORD2;
           float debug    : TEXCOORD3;
           float2 uv       : TEXCOORD4;
-          float  noiseVal : TEXCOORD5;
       };
 
 
@@ -103,8 +102,8 @@ struct Vert{
       		if( v.debug == 0 ){ discard;}
          
           //col = float3( v.uv.x , v.uv.y , .5);
-          //return float4( _Color * length(v.nor) , 1 );
-          return float4( (normalize(v.nor)  * .5 + .5)*1000 * length(v.nor), 1 );
+          return float4( _Color , 1 );
+          //return float4( (normalize(v.nor)  * .5 + .5)*1000 * length(v.nor), 1 );
 
       }
 

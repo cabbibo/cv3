@@ -7,7 +7,7 @@ public class Hair: Form {
   public int numVertsPerHair;
   public float length;
   public Material lineDebugMaterial;
-  [HideInInspector] public int numHairs;
+  public int numHairs;
 
   public override void SetStructSize( Form parent ){ structSize = 16; }
 
@@ -28,7 +28,7 @@ public class Hair: Form {
     debugMaterial.SetPass(0);
     debugMaterial.SetBuffer("_vertBuffer", _buffer);
     debugMaterial.SetInt("_Count",count);
-    //Graphics.DrawProcedural(MeshTopology.Triangles, count * 3 * 2 );
+    Graphics.DrawProcedural(MeshTopology.Triangles, count * 3 * 2 );
   }
 
 

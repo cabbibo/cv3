@@ -19,6 +19,15 @@ public class Life : Cycle {
   protected int numGroups;
   protected uint numThreads;
 
+  public struct BoundAttribute {
+    public string nameInShader;
+    public string shaderType;
+    public string attributeName;
+    public System.Object boundObject;
+  }
+
+  public List<BoundAttribute> boundAttributes;
+
 
   public delegate void SetValues(ComputeShader shader, int kernel);
   public event SetValues OnSetValues;
@@ -26,6 +35,7 @@ public class Life : Cycle {
   public override void Create(){
      boundForms = new Dictionary<string, Form>();
      boundInts = new Dictionary<string, int>();
+     boundAttributes = new List<BoundAttribute>();
      FindKernel();
      GetNumThreads();
      OnCreate();
@@ -69,11 +79,13 @@ public class Life : Cycle {
    
     GetNumGroups();
     SetShaderValues();
+    BindAttributes();
 
     // set this true every frame, 
     // and allow each buffer to make 
     // untrue as needed
     allBuffersSet = true;
+
 
     shader.SetFloat("_Time", Time.time);
     shader.SetFloat("_Delta", Time.deltaTime);
@@ -109,6 +121,54 @@ public class Life : Cycle {
         allBuffersSet = false;
         print("YOUR BUFFER : " + name +  " IS NULL!");
       }
+  }
+
+  public void BindAttribute( string nameInShader, string type , string attributeName , System.Object obj ){
+    BoundAttribute a = new BoundAttribute();
+
+    a.nameInShader = nameInShader;
+    a.shaderType = type;
+    a.attributeName = attributeName;
+    a.boundObject = obj;
+
+    boundAttributes.Add(a);
+  }
+
+  public void BindAttributes(){
+    foreach(  BoundAttribute b in boundAttributes ){
+
+
+      string s = "";
+      if( debug == true ){
+        s +="UNIFORM : "  + b.nameInShader;
+      }
+      if( b.shaderType == "float" ){
+        float value = (float)b.boundObject.GetType().GetField(b.attributeName).GetValue(b.boundObject);
+        if( debug == true ){ print( s + " || VALUE : " + value);}
+        shader.SetFloat(b.nameInShader,value);
+      }else if( b.shaderType == "int" ){
+        int value = (int)b.boundObject.GetType().GetField(b.attributeName).GetValue(b.boundObject);
+
+        if( debug == true ){ print( s + " || VALUE : " + value);}
+        shader.SetInt(b.nameInShader,value);
+      }else if( b.shaderType == "Vector3" ){
+        Vector3 value = (Vector3)b.boundObject.GetType().GetField(b.attributeName).GetValue(b.boundObject);
+
+        if( debug == true ){ print( s + " || VALUE : " + value);}
+        shader.SetVector(b.nameInShader,value);
+      }else if( b.shaderType == "Texture" ){
+        Texture value = (Texture)b.boundObject.GetType().GetField(b.attributeName).GetValue(b.boundObject);
+
+        if( debug == true ){ print( s + " || VALUE : " + value);}
+        shader.SetTexture(kernel,b.nameInShader,value);
+      }else if( b.shaderType == "Buffer" ){
+        ComputeBuffer value = (ComputeBuffer)b.boundObject.GetType().GetField(b.attributeName).GetValue(b.boundObject);
+
+        if( debug == true ){ print( s + " || VALUE : " + value);}
+        shader.SetBuffer(kernel,b.nameInShader,value);
+      }
+
+    }
   }
 
 }

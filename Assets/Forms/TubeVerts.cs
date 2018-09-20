@@ -11,7 +11,8 @@ public class TubeVerts: Form {
   public override void SetStructSize( Form parent ){ structSize = 16; }
 
   public override void SetCount( Form parent ){
-    numTubes = parent.count;
+    print( parent.count );
+    numTubes = ((Hair)parent).numHairs;
     count = numTubes * width * length;
   }
 

@@ -80,7 +80,7 @@ void Set (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uint3 id 
     Base base = _BaseBuffer[bID];
 
     float l = float(pID % _NumVertsPerHair ) / float(_NumVertsPerHair);
-    vert.pos  = base.pos + base.nor * l *( _HairLength /float(_NumVertsPerHair));
+    vert.pos  = base.pos + base.nor * l * _HairLength;
     vert.uv = float2( l , float(bID)/float(_BaseBuffer_COUNT));
     vert.oPos = vert.pos;//base.pos + base.nor * l + _HairLength;
 

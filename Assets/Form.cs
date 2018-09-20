@@ -17,6 +17,7 @@ public class Form : Cycle {
   [HideInInspector] public string description;
   [HideInInspector] public float timeToCreate;
   [HideInInspector] public int totalMemory;  
+
   
 
 
@@ -29,6 +30,7 @@ public class Form : Cycle {
     SetStructSize( parent );
     SetCount( parent );
     SetBufferType();
+    Create();
   }
 
   public virtual void _OnGestate(Form parent){
@@ -53,9 +55,13 @@ public class Form : Cycle {
 
   public T[] GetData<T>(){
     T[] array = new T[count];
+    if( _buffer == null ){ print("Buffer : "+ gameObject.name +" not created yet!"); }
     _buffer.GetData(array);
     return array;
   }
+
+  public void GetData( int[] values ){ _buffer.GetData(values); }
+  public void GetData( float[] values ){ _buffer.GetData(values); }
 
   public void SetData( float[] values ){ _buffer.SetData( values );}
   public void SetData( int[] values ){ _buffer.SetData( values );}
@@ -75,8 +81,6 @@ public class Form : Cycle {
   }
 
   public override void WhileDebug(){
-    //print(count);
-
     debugMaterial.SetPass(0);
     debugMaterial.SetBuffer("_vertBuffer", _buffer);
     debugMaterial.SetInt("_Count",count);
