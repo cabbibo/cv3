@@ -146,9 +146,12 @@ public class Life : Cycle {
         float value = (float)b.boundObject.GetType().GetField(b.attributeName).GetValue(b.boundObject);
         if( debug == true ){ print( s + " || VALUE : " + value);}
         shader.SetFloat(b.nameInShader,value);
+      }else if( b.shaderType == "floats" ){
+        float[] value = (float[])b.boundObject.GetType().GetField(b.attributeName).GetValue(b.boundObject);
+        if( debug == true ){ print( s + " || VALUE : " + value);}
+        shader.SetFloats(b.nameInShader,value);
       }else if( b.shaderType == "int" ){
         int value = (int)b.boundObject.GetType().GetField(b.attributeName).GetValue(b.boundObject);
-
         if( debug == true ){ print( s + " || VALUE : " + value);}
         shader.SetInt(b.nameInShader,value);
       }else if( b.shaderType == "Vector3" ){

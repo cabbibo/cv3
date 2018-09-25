@@ -22,6 +22,8 @@
 
 			#include "UnityCG.cginc"
 			#include "AutoLight.cginc"
+			#include "../Chunks/hsv.cginc"
+
 
 			sampler2D _Tex;
 			struct Transfer {
@@ -74,7 +76,7 @@
 			float4 frag(varyings v) : COLOR {
 
 				float3 col;
-				col = float3(1,0,1);//tex2D(_Tex,1-v.uv.yx);//float3(1,1,1);//v.nor * .5 + .5;//float3(0,0,1);
+				col = hsv(v.uv.x,1,1);//float3(1,0,1);//tex2D(_Tex,1-v.uv.yx);//float3(1,1,1);//v.nor * .5 + .5;//float3(0,0,1);
 
 
 				fixed shadow = UNITY_SHADOW_ATTENUATION(v,v.worldPos) * .9 + .1 ;

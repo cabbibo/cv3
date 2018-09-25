@@ -30,8 +30,13 @@ public class TubeHair : LifeForm {
 
   public Body body;
 
+  public float[] transformArray;
+
   public override void Create(){
 
+    transformArray = new float[16];
+
+    
     /*  
       All of this info should be visualizable!
     */
@@ -63,6 +68,7 @@ public class TubeHair : LifeForm {
 
 
 
+
     SetHairPosition.BindPrimaryForm("_VertBuffer", Hair);
     SetHairPosition.BindForm("_BaseBuffer", Base );
 
@@ -88,6 +94,7 @@ public class TubeHair : LifeForm {
     // Don't need to bind for all of them ( constraints ) because same shader
     HairCollision.BindAttribute( "_HairLength" , "float" , "length", Hair );
     HairCollision.BindAttribute( "_NumVertsPerHair" , "int" , "numVertsPerHair", Hair );
+    HairCollision.BindAttribute( "transform" , "floats" , "transformArray" , this );
 
   }
 
@@ -113,6 +120,7 @@ public class TubeHair : LifeForm {
 
   public override void WhileLiving(float v){
 
+    transformArray = HELP.GetMatrixFloats( ((ParticlesOnMesh)Base).mesh.gameObject.transform.localToWorldMatrix );
     HairCollision.shader.SetFloat("_HairLength", Hair.length ); 
     HairCollision.shader.SetInt("_NumVertsPerHair", Hair.numVertsPerHair); 
     HairCollision.Live();

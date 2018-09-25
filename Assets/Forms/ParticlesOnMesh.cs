@@ -5,6 +5,8 @@ using UnityEngine;
 public class ParticlesOnMesh : Particles {
   
   public MeshFilter mesh;
+  public string noiseType;// { "even", "fractal" , "allOne"};
+  public float noiseSize;
 
   public override void SetStructSize( Form parent ){ structSize = 16; }
   public override void Embody( Form parent ){
@@ -32,7 +34,15 @@ public class ParticlesOnMesh : Particles {
       tri1 = triangles[tri1];
       tri2 = triangles[tri2];
      
-      float area = HELP.AreaOfTriangle (verts[tri0], verts[tri1], verts[tri2]);
+      float area = 1;
+
+      if( noiseType=="even"){ 
+        area = HELP.AreaOfTriangle (verts[tri0], verts[tri1], verts[tri2]);
+      }else if( noiseType =="fractal" ){
+        area = HELP.NoiseTriangleArea(noiseSize, verts[tri0],  verts[tri1], verts[tri2]);
+        area = Mathf.Pow( area, 10);
+      }
+
       triangleAreas[i] = area;
       totalArea += area;
     
@@ -82,9 +92,7 @@ public class ParticlesOnMesh : Particles {
       uv = uvs[tri0] * p0 + uvs[tri1] * p1 + uvs[tri2] * p2;
       tan = (HELP.ToV3(tans[tri0]) * p0 + HELP.ToV3(tans[tri1]) * p1 + HELP.ToV3(tans[tri2]) * p2).normalized;
 
-      pos = mesh.gameObject.transform.TransformPoint( pos );
-      nor = mesh.gameObject.transform.TransformDirection( nor );
-      tan = mesh.gameObject.transform.TransformDirection( tan );
+
 //            print( pos);
       values[ index ++ ] = pos.x;
       values[ index ++ ] = pos.y;
