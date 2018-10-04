@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Point 16 Debug Yellow
-  m_Shader: {fileID: 4800000, guid: b7fc993a5441e8a4caa75f72f2b3ab98, type: 3}
-  m_ShaderKeywords: 
+  m_Shader: {fileID: 4800000, guid: f9130a793add52643a928d1025a3bbdb, type: 3}
+  m_ShaderKeywords: Enable16Struct
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -66,9 +66,13 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _Size: 0.01
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _Struct16: 1
+    - _Struct24: 0
+    - _Struct36: 0
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
