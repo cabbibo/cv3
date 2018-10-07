@@ -53,11 +53,28 @@ public class Form : Cycle {
 
   }
 
+
+  public int[] GetIntData(){
+    int[] val = new int[count];
+    GetData(val);
+    return val;
+  }
+
+  public float[] GetFloatData(){
+    float[] val = new float[count];
+    GetData(val);
+    return val;
+  }
+
+  public float[] GetData(){
+    return GetFloatData();
+  }
+
   public void GetData( int[] values ){ _buffer.GetData(values); }
   public void GetData( float[] values ){ _buffer.GetData(values); }
 
   public void SetData( float[] values ){ _buffer.SetData( values );}
-  public void SetData( int[] values ){ _buffer.SetData( values );}
+  public void SetData( int[] values ){ _buffer.SetData( values ); }
 
   public ComputeBuffer MakeBuffer(){
 
@@ -68,6 +85,22 @@ public class Form : Cycle {
     }
   }
 
+  public virtual int[] GetIntDNA(){
+    return GetIntData();
+  }
+
+  public virtual float[] GetDNA(){
+    return GetData();
+  }
+
+
+  public virtual void SetDNA(int[] dna){
+    SetData(dna);
+  }
+
+  public virtual void SetDNA(float[] dna){
+    SetData(dna);
+  }
 
   public void ReleaseBuffer(){
    if(_buffer != null){ _buffer.Release(); }
