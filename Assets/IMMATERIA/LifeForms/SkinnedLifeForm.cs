@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkinnedLifeForm : LifeForm {
+public class SkinnedLifeForm : MeshLifeForm {
   
   public Life skin;
 
-  public Form verts;
-  public Form tris;
   public Form bones;
 
 	// Use this for initialization

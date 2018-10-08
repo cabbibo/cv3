@@ -17,8 +17,7 @@ public class Hair: Form {
   }
 
   public override void WhileDebug(){
-    //print(count);
-
+    
     lineDebugMaterial.SetPass(0);
     lineDebugMaterial.SetBuffer("_vertBuffer", _buffer);
     lineDebugMaterial.SetInt("_Count",count);

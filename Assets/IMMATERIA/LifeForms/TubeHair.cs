@@ -87,18 +87,18 @@ public class TubeHair : LifeForm {
     HairTransfer.BindPrimaryForm("_VertBuffer", TubeVerts );
     HairTransfer.BindForm("_HairBuffer", Hair);
 
-    HairTransfer.BindAttribute( "_TubeWidth" , "int" , "width" , TubeVerts );
-    HairTransfer.BindAttribute( "_TubeLength" , "int" , "length" , TubeVerts );
-    HairTransfer.BindAttribute( "_NumVertsPerHair" , "int" , "numVertsPerHair", Hair );
-    HairTransfer.BindAttribute( "_TubeRadius" , "float" , "tubeRadius", this );
+    HairTransfer.BindAttribute( "_TubeWidth" , "width" , TubeVerts );
+    HairTransfer.BindAttribute( "_TubeLength" , "length" , TubeVerts );
+    HairTransfer.BindAttribute( "_NumVertsPerHair" , "numVertsPerHair", Hair );
+    HairTransfer.BindAttribute( "_TubeRadius"  , "tubeRadius", this );
 
-    SetHairPosition.BindAttribute( "_HairLength" , "float" , "length", Hair );
-    SetHairPosition.BindAttribute( "_NumVertsPerHair" , "int" , "numVertsPerHair", Hair );
+    SetHairPosition.BindAttribute( "_HairLength"  , "length", Hair );
+    SetHairPosition.BindAttribute( "_NumVertsPerHair" , "numVertsPerHair", Hair );
 
     // Don't need to bind for all of them ( constraints ) because same shader
-    HairCollision.BindAttribute( "_HairLength" , "float" , "length", Hair );
-    HairCollision.BindAttribute( "_NumVertsPerHair" , "int" , "numVertsPerHair", Hair );
-    HairCollision.BindAttribute( "transform" , "floats" , "transformArray" , this );
+    HairCollision.BindAttribute( "_HairLength"  , "length", Hair );
+    HairCollision.BindAttribute( "_NumVertsPerHair" , "numVertsPerHair", Hair );
+    HairCollision.BindAttribute( "transform" , "transformArray" , this );
 
 
   }

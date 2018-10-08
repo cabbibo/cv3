@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 
@@ -9,6 +10,7 @@ public class Life : Cycle {
   [HideInInspector] public Form primaryForm;
   public ComputeShader shader;
   public string kernelName;
+  public bool update;
   [HideInInspector] public int kernel;
   [HideInInspector] public float executionTime;
 
@@ -21,8 +23,8 @@ public class Life : Cycle {
 
   public struct BoundAttribute {
     public string nameInShader;
-    public string shaderType;
     public string attributeName;
+    public FieldInfo info;
     public System.Object boundObject;
   }
 
@@ -76,7 +78,7 @@ public class Life : Cycle {
   public void Live(){
 
     if( OnSetValues != null ){ OnSetValues(shader,kernel); }
-   
+    
     GetNumGroups();
     SetShaderValues();
     BindAttributes();
@@ -90,6 +92,7 @@ public class Life : Cycle {
 
     shader.SetFloat("_Time", Time.time);
     shader.SetFloat("_Delta", Time.deltaTime);
+    shader.SetInt("_Count", primaryForm.count );
 
 
     foreach(KeyValuePair<string,Form> form in boundForms){
@@ -103,7 +106,7 @@ public class Life : Cycle {
     SetBuffer( primaryName , primaryForm );
 
     // if its still true than we can dispatch
-    if ( allBuffersSet ){
+    if ( allBuffersSet && update  ){
       if( debug ) print( "name : " + kernelName + " Num groups : " + numGroups );
       shader.Dispatch( kernel,numGroups ,1,1);
     }
@@ -113,6 +116,7 @@ public class Life : Cycle {
   }
 
   public virtual void _SetInternal(){
+    
     
     shader.SetFloat("_Time", Time.time);
     shader.SetFloat("_Delta", Time.deltaTime);
@@ -133,13 +137,13 @@ public class Life : Cycle {
       }
   }
 
-  public void BindAttribute( string nameInShader, string type , string attributeName , System.Object obj ){
+  public void BindAttribute( string nameInShader, string attributeName , System.Object obj ){
     BoundAttribute a = new BoundAttribute();
 
     a.nameInShader = nameInShader;
-    a.shaderType = type;
     a.attributeName = attributeName;
     a.boundObject = obj;
+    a.info = obj.GetType().GetField(attributeName);
 
     boundAttributes.Add(a);
   }
@@ -152,32 +156,33 @@ public class Life : Cycle {
       if( debug == true ){
         s +="UNIFORM : "  + b.nameInShader;
       }
-      if( b.shaderType == "float" ){
-        float value = (float)b.boundObject.GetType().GetField(b.attributeName).GetValue(b.boundObject);
+
+      if( b.info.FieldType == typeof(float) ){
+        float value = (float)b.info.GetValue(b.boundObject);
         if( debug == true ){ print( s + " || VALUE : " + value);}
         shader.SetFloat(b.nameInShader,value);
-      }else if( b.shaderType == "floats" ){
-        float[] value = (float[])b.boundObject.GetType().GetField(b.attributeName).GetValue(b.boundObject);
+      }else if(b.info.FieldType == typeof(float[]) ){
+        float[] value = (float[])b.info.GetValue(b.boundObject);
         if( debug == true ){ print( s + " || VALUE : " + value);}
         shader.SetFloats(b.nameInShader,value);
-      }else if( b.shaderType == "int" ){
-        int value = (int)b.boundObject.GetType().GetField(b.attributeName).GetValue(b.boundObject);
+      }else if( b.info.FieldType == typeof(int) ){
+        int value = (int)b.info.GetValue(b.boundObject);
         if( debug == true ){ print( s + " || VALUE : " + value);}
         shader.SetInt(b.nameInShader,value);
-      }else if( b.shaderType == "Vector3" ){
-        Vector3 value = (Vector3)b.boundObject.GetType().GetField(b.attributeName).GetValue(b.boundObject);
+      }else if( b.info.FieldType == typeof(Vector3)){
+        Vector3 value = (Vector3)b.info.GetValue(b.boundObject);
         if( debug == true ){ print( s + " || VALUE : " + value);}
         shader.SetVector(b.nameInShader,value);
-      }else if( b.shaderType == "vector" ){
-        Vector3 value = (Vector3)b.boundObject.GetType().GetField(b.attributeName).GetValue(b.boundObject);
+      }else if( b.info.FieldType == typeof(Vector4)){
+        Vector4 value = (Vector4)b.info.GetValue(b.boundObject);
         if( debug == true ){ print( s + " || VALUE : " + value);}
         shader.SetVector(b.nameInShader,value);
-      }else if( b.shaderType == "Texture" ){
-        Texture value = (Texture)b.boundObject.GetType().GetField(b.attributeName).GetValue(b.boundObject);
+      }else if( b.info.FieldType == typeof(Texture) ){
+        Texture value = (Texture)b.info.GetValue(b.boundObject);
         if( debug == true ){ print( s + " || VALUE : " + value);}
         shader.SetTexture(kernel,b.nameInShader,value);
-      }else if( b.shaderType == "Buffer" ){
-        ComputeBuffer value = (ComputeBuffer)b.boundObject.GetType().GetField(b.attributeName).GetValue(b.boundObject);
+      }else if(b.info.FieldType == typeof(ComputeBuffer) ){
+        ComputeBuffer value = (ComputeBuffer)b.info.GetValue(b.boundObject);
         if( debug == true ){ print( s + " || VALUE : " + value);}
         shader.SetBuffer(kernel,b.nameInShader,value);
       }

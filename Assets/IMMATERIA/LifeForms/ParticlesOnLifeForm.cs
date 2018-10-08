@@ -48,12 +48,12 @@ public class ParticlesOnLifeForm: LifeForm {
 
     place.BindPrimaryForm("_VertBuffer",verts);
     place.BindForm("_SkinnedBuffer",skin.verts);
-    place.BindAttribute("_Whirlwind", "int" , "whirlwindState" , this);
-    place.BindAttribute("_WhirlwindSpeed", "float" , "whirlwindSpeed" , this);
+    place.BindAttribute("_Whirlwind", "whirlwindState" , this);
+    place.BindAttribute("_WhirlwindSpeed", "whirlwindSpeed" , this);
 
-    bodyTransfer.BindAttribute("_CameraUp" , "vector" , "cameraUp" , this );
-    bodyTransfer.BindAttribute("_CameraLeft" , "vector" , "cameraLeft" , this );
-    bodyTransfer.BindAttribute("_Radius" , "float" , "radius" , this );
+    bodyTransfer.BindAttribute("_CameraUp"  , "cameraUp" , this );
+    bodyTransfer.BindAttribute("_CameraLeft"  , "cameraLeft" , this );
+    bodyTransfer.BindAttribute("_Radius" , "radius" , this );
 
 
     bodyTransfer.BindPrimaryForm("_VertBuffer", bodyVerts);

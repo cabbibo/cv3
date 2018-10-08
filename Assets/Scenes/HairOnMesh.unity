@@ -113,6 +113,53 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &24683363
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 217644007}
+    m_Modifications:
+    - target: {fileID: 4578017264564600, guid: 0ad054396084e9b4ba60f4f0058c3d3f, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -4.8467746
+      objectReference: {fileID: 0}
+    - target: {fileID: 4578017264564600, guid: 0ad054396084e9b4ba60f4f0058c3d3f, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.78602546
+      objectReference: {fileID: 0}
+    - target: {fileID: 4578017264564600, guid: 0ad054396084e9b4ba60f4f0058c3d3f, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 1.5797317
+      objectReference: {fileID: 0}
+    - target: {fileID: 4578017264564600, guid: 0ad054396084e9b4ba60f4f0058c3d3f, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4578017264564600, guid: 0ad054396084e9b4ba60f4f0058c3d3f, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4578017264564600, guid: 0ad054396084e9b4ba60f4f0058c3d3f, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4578017264564600, guid: 0ad054396084e9b4ba60f4f0058c3d3f, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4578017264564600, guid: 0ad054396084e9b4ba60f4f0058c3d3f, type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114153095707621414, guid: 0ad054396084e9b4ba60f4f0058c3d3f,
+        type: 2}
+      propertyPath: Base
+      value: 
+      objectReference: {fileID: 1799198627}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0ad054396084e9b4ba60f4f0058c3d3f, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &217644006
 GameObject:
   m_ObjectHideFlags: 0
@@ -157,7 +204,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &295167504
 Transform:
   m_ObjectHideFlags: 0
@@ -235,6 +282,7 @@ MonoBehaviour:
   primaryForm: {fileID: 0}
   shader: {fileID: 7200000, guid: 33c1957f7dc70ed44afcaa54e4d84167, type: 3}
   kernelName: Transfer
+  update: 0
   kernel: 0
   executionTime: 0
 --- !u!114 &334883535
@@ -342,248 +390,17 @@ MonoBehaviour:
   width: 3
   length: 4
   numTubes: 0
---- !u!1 &569257204
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 569257206}
-  - component: {fileID: 569257205}
-  - component: {fileID: 569257207}
-  - component: {fileID: 569257211}
-  - component: {fileID: 569257210}
-  - component: {fileID: 569257209}
-  - component: {fileID: 569257208}
-  m_Layer: 0
-  m_Name: TubeHair
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &569257205
+--- !u!114 &569257205 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 569257204}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 114153095707621414, guid: 0ad054396084e9b4ba60f4f0058c3d3f,
+    type: 2}
+  m_PrefabInternal: {fileID: 24683363}
   m_Script: {fileID: 11500000, guid: fed603541f5205946a0f5ee2f393edd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  created: 0
-  begunGestation: 0
-  gestating: 0
-  gestated: 0
-  begunBirth: 0
-  birthed: 0
-  birthing: 0
-  begunLive: 0
-  living: 0
-  lived: 0
-  begunDeath: 0
-  dying: 0
-  died: 0
-  destroyed: 0
-  debug: 0
-  Lifes: []
-  Forms: []
-  SetHairPosition: {fileID: 569257211}
-  HairCollision: {fileID: 569257210}
-  HairConstraint0: {fileID: 569257209}
-  HairConstraint1: {fileID: 569257208}
-  Base: {fileID: 1799198627}
-  Hair: {fileID: 569257207}
-  reduce: 0
-  reduceLife: {fileID: 0}
-  tubeRadius: 1
-  HairTransfer: {fileID: 1513476643}
-  TubeTriangles: {fileID: 1513476642}
-  TubeVerts: {fileID: 1513476641}
-  body: {fileID: 1513476639}
-  transformArray: []
---- !u!4 &569257206
+--- !u!4 &569257206 stripped
 Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 569257204}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.8467746, y: 0.78602546, z: 1.5797317}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1513476640}
-  m_Father: {fileID: 217644007}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &569257207
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 569257204}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c8e8ad1e2189bf4f855dccc19a13c7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  created: 0
-  begunGestation: 0
-  gestating: 0
-  gestated: 0
-  begunBirth: 0
-  birthed: 0
-  birthing: 0
-  begunLive: 0
-  living: 0
-  lived: 0
-  begunDeath: 0
-  dying: 0
-  died: 0
-  destroyed: 0
-  debug: 0
-  count: 0
-  intBuffer: 0
-  structSize: 0
-  description: 
-  timeToCreate: 0
-  totalMemory: 0
-  debugMaterial: {fileID: 2100000, guid: 5ec31fc377d637845bc7b451b442e217, type: 2}
-  numVertsPerHair: 10
-  length: 1
-  lineDebugMaterial: {fileID: 2100000, guid: f1f63776814044a26b4b2b64672ffd72, type: 2}
-  numHairs: 0
---- !u!114 &569257208
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 569257204}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed243af0e768bc34fbc125e59c6247b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  created: 0
-  begunGestation: 0
-  gestating: 0
-  gestated: 0
-  begunBirth: 0
-  birthed: 0
-  birthing: 0
-  begunLive: 0
-  living: 0
-  lived: 0
-  begunDeath: 0
-  dying: 0
-  died: 0
-  destroyed: 0
-  debug: 0
-  primaryName: 
-  primaryForm: {fileID: 0}
-  shader: {fileID: 7200000, guid: 54c920e8cd627b047b56ccab3e5bfca6, type: 3}
-  kernelName: Constraint
-  kernel: 0
-  executionTime: 0
---- !u!114 &569257209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 569257204}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed243af0e768bc34fbc125e59c6247b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  created: 0
-  begunGestation: 0
-  gestating: 0
-  gestated: 0
-  begunBirth: 0
-  birthed: 0
-  birthing: 0
-  begunLive: 0
-  living: 0
-  lived: 0
-  begunDeath: 0
-  dying: 0
-  died: 0
-  destroyed: 0
-  debug: 0
-  primaryName: 
-  primaryForm: {fileID: 0}
-  shader: {fileID: 7200000, guid: 54c920e8cd627b047b56ccab3e5bfca6, type: 3}
-  kernelName: Constraint
-  kernel: 0
-  executionTime: 0
---- !u!114 &569257210
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 569257204}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 521ed2d62d2034941a1197389f9c70d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  created: 0
-  begunGestation: 0
-  gestating: 0
-  gestated: 0
-  begunBirth: 0
-  birthed: 0
-  birthing: 0
-  begunLive: 0
-  living: 0
-  lived: 0
-  begunDeath: 0
-  dying: 0
-  died: 0
-  destroyed: 0
-  debug: 0
-  primaryName: 
-  primaryForm: {fileID: 0}
-  shader: {fileID: 7200000, guid: 54c920e8cd627b047b56ccab3e5bfca6, type: 3}
-  kernelName: Collision
-  kernel: 0
-  executionTime: 0
---- !u!114 &569257211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 569257204}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 521ed2d62d2034941a1197389f9c70d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  created: 0
-  begunGestation: 0
-  gestating: 0
-  gestated: 0
-  begunBirth: 0
-  birthed: 0
-  birthing: 0
-  begunLive: 0
-  living: 0
-  lived: 0
-  begunDeath: 0
-  dying: 0
-  died: 0
-  destroyed: 0
-  debug: 0
-  primaryName: 
-  primaryForm: {fileID: 0}
-  shader: {fileID: 7200000, guid: 54c920e8cd627b047b56ccab3e5bfca6, type: 3}
-  kernelName: Set
-  kernel: 0
-  executionTime: 0
+  m_CorrespondingSourceObject: {fileID: 4578017264564600, guid: 0ad054396084e9b4ba60f4f0058c3d3f,
+    type: 2}
+  m_PrefabInternal: {fileID: 24683363}
 --- !u!1 &752162838
 GameObject:
   m_ObjectHideFlags: 0
@@ -809,6 +626,7 @@ MonoBehaviour:
   primaryForm: {fileID: 0}
   shader: {fileID: 7200000, guid: 54c920e8cd627b047b56ccab3e5bfca6, type: 3}
   kernelName: Constraint
+  update: 0
   kernel: 0
   executionTime: 0
 --- !u!114 &1031586086
@@ -841,6 +659,7 @@ MonoBehaviour:
   primaryForm: {fileID: 0}
   shader: {fileID: 7200000, guid: 54c920e8cd627b047b56ccab3e5bfca6, type: 3}
   kernelName: Constraint
+  update: 0
   kernel: 0
   executionTime: 0
 --- !u!114 &1031586087
@@ -873,6 +692,7 @@ MonoBehaviour:
   primaryForm: {fileID: 0}
   shader: {fileID: 7200000, guid: 54c920e8cd627b047b56ccab3e5bfca6, type: 3}
   kernelName: Collision
+  update: 0
   kernel: 0
   executionTime: 0
 --- !u!114 &1031586088
@@ -905,6 +725,7 @@ MonoBehaviour:
   primaryForm: {fileID: 0}
   shader: {fileID: 7200000, guid: 54c920e8cd627b047b56ccab3e5bfca6, type: 3}
   kernelName: Set
+  update: 0
   kernel: 0
   executionTime: 0
 --- !u!114 &1031586089
@@ -986,175 +807,6 @@ MonoBehaviour:
   TubeVerts: {fileID: 334883537}
   body: {fileID: 334883535}
   transformArray: []
---- !u!1 &1513476638
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1513476640}
-  - component: {fileID: 1513476641}
-  - component: {fileID: 1513476642}
-  - component: {fileID: 1513476639}
-  - component: {fileID: 1513476643}
-  m_Layer: 0
-  m_Name: Transfer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1513476639
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1513476638}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cc511694b37ef44084674021bf8914e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  created: 0
-  begunGestation: 0
-  gestating: 0
-  gestated: 0
-  begunBirth: 0
-  birthed: 0
-  birthing: 0
-  begunLive: 0
-  living: 0
-  lived: 0
-  begunDeath: 0
-  dying: 0
-  died: 0
-  destroyed: 0
-  debug: 0
-  render: {fileID: 0}
-  mesh: {fileID: 0}
-  material: {fileID: 2100000, guid: ff16a3594cb78b74285a8131c9c83abd, type: 2}
-  triangles: {fileID: 1513476642}
-  verts: {fileID: 1513476641}
---- !u!4 &1513476640
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1513476638}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 569257206}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1513476641
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1513476638}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc52dc505840d30499d35efc242c05f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  created: 0
-  begunGestation: 0
-  gestating: 0
-  gestated: 0
-  begunBirth: 0
-  birthed: 0
-  birthing: 0
-  begunLive: 0
-  living: 0
-  lived: 0
-  begunDeath: 0
-  dying: 0
-  died: 0
-  destroyed: 0
-  debug: 0
-  count: 0
-  intBuffer: 0
-  structSize: 6
-  description: 
-  timeToCreate: 0
-  totalMemory: 0
-  debugMaterial: {fileID: 2100000, guid: 9d5146d484f807743928932f86d26484, type: 2}
-  width: 3
-  length: 15
-  numTubes: 0
---- !u!114 &1513476642
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1513476638}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae4d414b03ee09e48af6b289ac5f8947, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  created: 0
-  begunGestation: 0
-  gestating: 0
-  gestated: 0
-  begunBirth: 0
-  birthed: 0
-  birthing: 0
-  begunLive: 0
-  living: 0
-  lived: 0
-  begunDeath: 0
-  dying: 0
-  died: 0
-  destroyed: 0
-  debug: 0
-  count: 0
-  intBuffer: 0
-  structSize: 1
-  description: 
-  timeToCreate: 0
-  totalMemory: 0
-  debugMaterial: {fileID: 2100000, guid: a26208c937c775a469f0791f9e50c4fd, type: 2}
-  toIndex: {fileID: 0}
-  width: 0
-  length: 0
-  numTubes: 0
-  verts: {fileID: 1513476641}
---- !u!114 &1513476643
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1513476638}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 521ed2d62d2034941a1197389f9c70d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  created: 0
-  begunGestation: 0
-  gestating: 0
-  gestated: 0
-  begunBirth: 0
-  birthed: 0
-  birthing: 0
-  begunLive: 0
-  living: 0
-  lived: 0
-  begunDeath: 0
-  dying: 0
-  died: 0
-  destroyed: 0
-  debug: 0
-  primaryName: 
-  primaryForm: {fileID: 0}
-  shader: {fileID: 7200000, guid: 33c1957f7dc70ed44afcaa54e4d84167, type: 3}
-  kernelName: Transfer
-  kernel: 0
-  executionTime: 0
 --- !u!1 &1620113716
 GameObject:
   m_ObjectHideFlags: 0
@@ -1344,8 +996,8 @@ MonoBehaviour:
   dying: 0
   died: 0
   destroyed: 0
-  debug: 0
-  count: 1000
+  debug: 1
+  count: 3000
   intBuffer: 0
   structSize: 0
   description: 
@@ -1354,7 +1006,7 @@ MonoBehaviour:
   debugMaterial: {fileID: 2100000, guid: 2d2db4c4fed294f37b58a496d7212c18, type: 2}
   mesh: {fileID: 2102965873}
   noiseType: fractal
-  noiseSize: 0.1
+  noiseSize: 1
 --- !u!1 &2102965871
 GameObject:
   m_ObjectHideFlags: 0
@@ -1380,13 +1032,13 @@ Transform:
     type: 3}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2102965871}
-  m_LocalRotation: {x: 0.63107103, y: -0, z: -0, w: 0.7757251}
-  m_LocalPosition: {x: 0.01, y: 3.9, z: -0.147}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 752162839}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 78.258, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2102965873
 MeshFilter:
   m_ObjectHideFlags: 0

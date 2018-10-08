@@ -3,6 +3,8 @@
 
     _Color ("Color", Color) = (1,1,1,1)
     _Size ("Size", float) = .01
+    [Toggle(Enable9Struct)] _Struct9("9 Struct", Float) = 0
+    [Toggle(Enable12Struct)] _Struct12("12 Struct", Float) = 0
     [Toggle(Enable16Struct)] _Struct16("16 Struct", Float) = 0
     [Toggle(Enable24Struct)] _Struct24("24 Struct", Float) = 0
   	[Toggle(Enable36Struct)] _Struct36("36 Struct", Float) = 0
@@ -76,7 +78,7 @@
 	        //o.debug = v.debug.x;
 	        o.eye = _WorldSpaceCameraPos - o.worldPos;
           o.nor =normalize( v.vel);//fPos;
-          o.uv = uv;
+          o.uv = v.uv;
 
 	        o.pos = mul (UNITY_MATRIX_VP, float4(o.worldPos,1.0f));
 
@@ -91,7 +93,7 @@
 
       //Pixel function returns a solid color for each point.
       float4 frag (varyings v) : COLOR {
-          return float4( _Color, 1 );
+          return float4(float3(v.uv.x , v.uv.y ,0) ,1 );
       }
 
       ENDCG

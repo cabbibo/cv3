@@ -2,6 +2,8 @@
 	Properties {
 
     _Color ("Color", Color) = (1,1,1,1)
+    [Toggle(Enable9Struct)]  _Struct9("9 Struct", Float) = 0
+    [Toggle(Enable12Struct)] _Struct12("12 Struct", Float) = 0
     [Toggle(Enable16Struct)] _Struct16("16 Struct", Float) = 0
     [Toggle(Enable24Struct)] _Struct24("24 Struct", Float) = 0
     [Toggle(Enable36Struct)] _Struct36("36 Struct", Float) = 0

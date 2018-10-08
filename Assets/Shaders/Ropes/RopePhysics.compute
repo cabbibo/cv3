@@ -30,14 +30,28 @@ struct Vert{
 };
 
 
-struct Base{
+/*struct Base{
   float3 pos;
   float3 vel;
   float3 nor;
   float3 tangent;
   float2 uv;
   float2 debug;
+};*/
+
+
+struct Base{
+  float3 pos;
+  float3 vel;
+  float3 nor;
+  float3 tang;
+  float2 uv;
+  float used;
+  float3 triIDs;
+  float3 triWeights;
+  float3 debug;
 };
+
 
 
 RWStructuredBuffer<Vert> _VertBuffer;
@@ -74,7 +88,6 @@ float3 springForce( float3 p1 , float3 p2 , float sl ){
 [numthreads(NR_THREADS,1,1)]
 void Set (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uint3 id : SV_DispatchThreadID) {
 
-  //int pID = id.x + id.y * gridX + id.z * gridX * gridY;
 
   uint pID = threadID + u3GroupID.x * NR_THREADS;
   uint bID = pID / _NumVertsPerHair;
@@ -84,9 +97,9 @@ void Set (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uint3 id 
     Vert vert = _VertBuffer[pID];
     Base base = _BaseBuffer[bID];
 
-    float3 bP = mul( transform,  float4(base.pos,1)).xyz;
-    float3 bN = normalize(mul( transform,  float4(base.nor,0))).xyz;
-    float3 s = mul( transform , float4(1,1,1,0)).xyz;
+    float3 bP = base.pos;//mul( transform,  float4(base.pos,1)).xyz;
+    float3 bN = float3(0,1,0);//normalize(mul( transform,  float4(base.nor,0))).xyz;
+    float3 s = float3(1,1,1);//mul( transform , float4(1,1,1,0)).xyz;
 
     float l = float(pID % _NumVertsPerHair ) / float(_NumVertsPerHair);
     vert.pos  = bP + bN * l *(length(s)/3)* _HairLength;
@@ -113,18 +126,18 @@ void Collision (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uin
     Vert vert = _VertBuffer[pID];
     Base base = _BaseBuffer[bID];
 
-    float3 bP = mul( transform,  float4(base.pos,1)).xyz;
-    float3 bN = normalize(mul( transform,  float4(base.nor,0))).xyz;
-    float3 s = mul( transform , float4(1,1,1,0)).xyz;
+    float3 bP = base.pos;//mul( transform,  float4(base.pos,1)).xyz;
+    float3 bN = base.nor;//normalize(mul( transform,  float4(base.nor,0))).xyz;
+    float3 s = float3(1,1,1);//mul( transform , float4(1,1,1,0)).xyz;
 
-    float3 force = bN * 1.1;//float3( 0 , base.nor , 0.0 );
+    float3 force = bN * 1.5 * vert.uv.x;//float3( 0 , base.nor , 0.0 );
 
-    force += curlNoise( vert.pos * .4 + float3(0,_Time*.2,0) );
-    force += float3(0,1.5,0);
+    force += curlNoise( vert.pos * 1.4 + float3(0,_Time*.2,0) );
+    //force += float3(0,1.5,0);
 
 
-    force += .2*normalize((_HandL-vert.pos))/pow(length(_HandL-vert.pos),4);
-    force += .2*normalize((_HandR-vert.pos))/pow(length(_HandR-vert.pos),4);
+    //force += .2*normalize((_HandL-vert.pos))/pow(length(_HandL-vert.pos),4);
+    //force += .2*normalize((_HandR-vert.pos))/pow(length(_HandR-vert.pos),4);
     // Inertia: objects in motion stay in motion.
     float3 vel = getVel( vert.pos , vert.oPos);
 
@@ -139,6 +152,23 @@ void Collision (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uin
       vert.pos = bP; 
       vert.oPos = bP;
       tb = true;
+    }else{
+      //vert.pos = bP + bN * .1 *vert.uv.x; 
+      //vert.oPos = bP+ bN * .1 *vert.uv.x; 
+      //tb = true;
+
+    }
+
+    if( length(vert.pos) > .2 ){
+      vert.pos = bP + bN * .1 * vert.uv.x; 
+      vert.oPos = bP+ bN * .1 * vert.uv.x; 
+      tb = true; 
+    }
+
+    if( length(vert.pos) < .1 ){
+      vert.pos = bP + bN * .1 * vert.uv.x; 
+      vert.oPos = bP+ bN * .1 * vert.uv.x; 
+      tb = true; 
     }
 
     if( _Delta  < .1 && tb == false ){

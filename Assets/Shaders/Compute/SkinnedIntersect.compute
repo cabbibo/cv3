@@ -3,10 +3,8 @@
 float _DT;
 float _Time;
 
-int _NumVerts;
-int _NumTris;
 
-int _NumParticles;
+int _Count;
 int _TapOrDrags;
 int _Deform;
 
@@ -30,53 +28,58 @@ int _NumObjects;
 
 
 
-struct Particle{
 
-  float used;
+
+struct Particle{
   float3 pos;
   float3 vel;
   float3 nor;
+  float3 tang;
   float2 uv;
+  float used;
   float3 triIDs;
   float3 triWeights;
   float3 debug;
-
-
 };
 
 
-struct Vert{
+  struct Vert{
 
-  float used;
-  float3 pos;
-  float3 vel;
-  float3 nor;
-  float3 tan;
-  float2 uv;
+    float3 pos;
+    float3 vel;
+    float3 nor;
+    float3 tang;
+    float2 uv;
+  
+    float used;
+  
+   
+    float3 targetPos;
+    float3 bindPos;
+    float3 bindNor;
+    float3 bindTan;
 
-  float3 targetPos;
+    float4 boneWeights;
+    float4 boneIDs;
 
-  float3 bindPos;
-  float3 bindNor;
-  float3 bindTan;
+    float debug;
 
-  float4 boneWeights;
-  float4 boneIDs;
-  float3 debug;
-
-};
+  };
 
 
 // 1 value
-RWStructuredBuffer<float4> currentParticle;
+RWStructuredBuffer<float4> _OutBuffer;
 
 
-RWStructuredBuffer<Vert> vertBuffer;
-RWStructuredBuffer<int> triBuffer;
+RWStructuredBuffer<Vert> _SkinnedVertBuffer;
+RWStructuredBuffer<int> _SkinnedTriBuffer;
 
 
-RWStructuredBuffer<Particle> buffer;
+RWStructuredBuffer<Particle> _ParticleBuffer;
 
+int _SkinnedVertBuffer_COUNT;
+int _SkinnedTriBuffer_COUNT;
+int _ParticleBuffer_COUNT;
 
 
 float intersectTriangle( float3 orig, float3 dir, float3 v1, float3 v2, float3 v3)
@@ -126,13 +129,13 @@ float intersectTriangle( float3 orig, float3 dir, float3 v1, float3 v2, float3 v
     if (t < 0.0 || (s + t) > 1.0)
         return INFINITY;
 
-    return (r > 1e-5) ? r : INFINITY;
+     return (r > 1e-5) ? r : INFINITY;
 }
 
 float4 RayTriIntersect(float3 v1, float3 v2, float3 v3 , out float3 intersectPosition ){
 
   float3 fRO = _RO * 1000;
-  float3 fRD = _RD * 1000;
+  float3 fRD = -_RD * 1000;
   float3 fV1 = v1 * 1000;
   float3 fV2 = v2 * 1000;
   float3 fV3 = v3 * 1000;
@@ -142,13 +145,14 @@ float4 RayTriIntersect(float3 v1, float3 v2, float3 v3 , out float3 intersectPos
     float3 nor = cross( fV1 - fV2 , fV3 - fV2 );
     float area = length(nor);
 
-    //return float4(.33,.33,.33,1);
     if( r < 10000000 ){
 
       if( dot( normalize(fRD) , normalize(nor) ) > 0 ){
-      float3 p =fRO+ r * fRD; 
+      float3 p = fRO + r * fRD; 
 
       intersectPosition = p / 1000;
+
+
 
       float weight1;
       float weight2;
@@ -171,7 +175,7 @@ float4 RayTriIntersect(float3 v1, float3 v2, float3 v3 , out float3 intersectPos
       c = cross( edge2 ,vp3); 
       weight3 = length( c ) / area;
 
-      return float4(float3(weight1,weight2,weight3),1);
+        return float4(float3(weight2,weight3,weight1),1);
       }else{
         intersectPosition = float3(10000,10000,10000);
         return float4(1,1,1,-1);
@@ -187,17 +191,17 @@ float4 RayTriIntersect(float3 v1, float3 v2, float3 v3 , out float3 intersectPos
 
 
 Particle GetParticleFromID(int objectID , int pID ){
-  return buffer[pID];
+  return _ParticleBuffer[pID];
 }
 
 void SetParticleFromID( Particle p , int objectID , int pID ){
-  buffer[pID] = p;
+  _ParticleBuffer[pID] = p;
 }
 
 
 void SetParticle( int objectID, int id1 , int id2 ,int id3 , float4 r , float3 intersectPosition ){
 
-  float4 pInfo = currentParticle[objectID];
+  float4 pInfo = _OutBuffer[objectID];
 
   float3 dif = pInfo.xyz - intersectPosition;
 
@@ -223,43 +227,45 @@ void SetParticle( int objectID, int id1 , int id2 ,int id3 , float4 r , float3 i
     pInfo.a += 1;
     pInfo.xyz = intersectPosition;
 
-    if( (int)pInfo.a >= _NumParticles){
+    if( (int)pInfo.a >= _ParticleBuffer_COUNT){
       pInfo.a = 0;
     }
 
-    currentParticle[objectID] = pInfo;
+    _OutBuffer[objectID] = float4(intersectPosition,pInfo.a);
 
   }
 
 }
 
 
+int safeID( int id , int maxID ){
+  if( id < 0 || id > maxID ){
+    return 0;
+  }else{
+    return id;
+  }
+}
 #define NR_THREADS 128
 
 [numthreads(NR_THREADS,1,1)]
 void Intersect ( uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uint3 id : SV_DispatchThreadID) {
 
- //currentParticle[_NumObjects+1] = float4(0,0,0,0);
+ //_OutBuffer[_NumObjects+1] = float4(0,0,0,0);
   int pID = threadID + u3GroupID * NR_THREADS;
 
 
-  int t1 = pID * 3 + 0;
-  int t2 = pID * 3 + 1;
-  int t3 = pID * 3 + 2;
-
-  if( _ActiveObject >= 0 ){
-
-    if( t1 < _NumTris && t2 < _NumTris && t3 < _NumTris){
+      int t1 = safeID( pID * 3 + 0  , _SkinnedTriBuffer_COUNT);
+      int t2 = safeID( pID * 3 + 1  , _SkinnedTriBuffer_COUNT);
+      int t3 = safeID( pID * 3 + 2  , _SkinnedTriBuffer_COUNT);
 
 
+      int id1 = _SkinnedTriBuffer[t1];
+      int id2 = _SkinnedTriBuffer[t2];
+      int id3 = _SkinnedTriBuffer[t3];
 
-      int id1 = triBuffer[t1];
-      int id2 = triBuffer[t2];
-      int id3 = triBuffer[t3];
-
-      Vert p1 =  vertBuffer[id1];
-      Vert p2 =  vertBuffer[id2];
-      Vert p3 =  vertBuffer[id3];
+      Vert p1 =  _SkinnedVertBuffer[id1];
+      Vert p2 =  _SkinnedVertBuffer[id2];
+      Vert p3 =  _SkinnedVertBuffer[id3];
 
       float3 intersectP;
 
@@ -268,25 +274,12 @@ void Intersect ( uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, ui
 
       if( length( intersectP ) < 10000 ){
 
-        currentParticle[_NumObjects] = float4(1,0,0,10);
+        //_OutBuffer[0] = float4(1,0,0,10);
 
-        if( _Deform == 0 ){
-          SetParticle(_ActiveObject,id1,id2,id3,r,intersectP);
-        }else{
-          p1.debug.y += .001;
-          p2.debug.y += .001;
-          p3.debug.y += .001;
-
-          vertBuffer[id1] = p1;
-          vertBuffer[id2] = p2;
-          vertBuffer[id3] = p3;
-        }
+        SetParticle(0,id1,id2,id3,r,intersectP);
+       
       }
 
-
-    }
-  }
-  
 
   
 }

@@ -1,10 +1,29 @@
 
+      #pragma multi_compile __ Enable9Struct
+      #pragma multi_compile __ Enable12Struct
       #pragma multi_compile __ Enable16Struct
       #pragma multi_compile __ Enable24Struct
       #pragma multi_compile __ Enable36Struct
-      #if defined(Enable16Struct) || defined(Enable24Struct) || defined(Enable36Struct)
+      #if defined(Enable9Struct) || defined(Enable12Struct) || defined(Enable16Struct) || defined(Enable24Struct) || defined(Enable36Struct) 
 
-
+        #ifdef Enable9Struct
+        struct Vert{
+          float3 pos;
+          float3 nor;
+          float2 uv;
+          float debug;
+        };
+        
+        #endif
+        #ifdef Enable12Struct
+        struct Vert{
+          float3 pos;
+          float3 nor;
+          float3 tan;
+          float2 uv;
+          float debug;
+        };
+        #endif
         #ifdef Enable16Struct
         struct Vert{
           float3 pos;

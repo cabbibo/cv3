@@ -10,8 +10,8 @@ public class BindHands : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-    toBind.BindAttribute( "_HandL" , "vector" , "handL" , hands );
-    toBind.BindAttribute( "_HandR" , "vector" , "handR" , hands );
+    toBind.BindAttribute( "_HandL"  , "handL" , hands );
+    toBind.BindAttribute( "_HandR"  , "handR" , hands );
 	}
 	
 	// Update is called once per frame

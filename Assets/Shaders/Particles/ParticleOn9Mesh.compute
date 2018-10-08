@@ -1,0 +1,69 @@
+﻿#pragma kernel PlacePoint
+
+
+  struct Vert{
+
+    float3 pos;
+    float3 vel;
+    float3 nor;
+    float3 tang;
+    float2 uv;
+    float used;
+    float3 triIDs;
+    float3 triWeights;
+    float3 debug;
+
+  };
+
+struct SkinnedVert{
+
+    float3 pos;
+    float3 nor;
+    float2 uv;
+  
+    float debug;
+
+
+  };
+
+
+float4x4 _Transform;
+
+RWStructuredBuffer<Vert> _VertBuffer;
+RWStructuredBuffer<SkinnedVert> _SkinnedBuffer;
+
+#define NR_THREADS 128
+[numthreads(NR_THREADS,1,1)]
+void PlacePoint(uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID) {
+
+  int pID = threadID + u3GroupID.x * NR_THREADS;
+
+  Vert vert = _VertBuffer[pID];
+  SkinnedVert v0 = _SkinnedBuffer[int(vert.triIDs.x)];
+  SkinnedVert v1 = _SkinnedBuffer[int(vert.triIDs.y)];
+  SkinnedVert v2 = _SkinnedBuffer[int(vert.triIDs.z)];
+
+
+
+  float3 fPos  = v0.pos * vert.triWeights.x;
+         fPos += v1.pos * vert.triWeights.y;
+         fPos += v2.pos * vert.triWeights.z;
+
+  float3 fNor  = v0.nor * vert.triWeights.x;
+         fNor += v1.nor * vert.triWeights.y;
+         fNor += v2.nor * vert.triWeights.z;
+
+
+  float2 fUV  = v0.uv * vert.triWeights.x;
+         fUV += v1.uv * vert.triWeights.y;
+         fUV += v2.uv * vert.triWeights.z;
+
+  vert.nor = mul( _Transform , float4( normalize(fNor) , 0 )).xyz;
+  vert.uv = fUV;
+
+  vert.debug = 1;
+  vert.pos = mul( _Transform , float4( fPos , 1 )).xyz;
+  
+  _VertBuffer[pID] = vert;
+
+}

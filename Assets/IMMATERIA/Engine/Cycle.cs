@@ -33,9 +33,11 @@ public class Cycle : MonoBehaviour{
 
 */
   public virtual void _Create(){
+    if( created == true ){ print( "THIS OBJECT IS BEIGN CREATED 2 TIMES"); }
     Create();
     created = true;
   }
+
   public virtual void Create(){}
 
 /*

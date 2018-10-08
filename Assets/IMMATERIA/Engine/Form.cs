@@ -33,6 +33,11 @@ public class Form : Cycle {
     Create();
   }
 
+
+  public override void _WhileLiving(float v){
+    Mutate();
+  }
+
   public virtual void _OnGestate(Form parent){
     
     _OnGestate();
@@ -40,6 +45,18 @@ public class Form : Cycle {
     Embody(parent);
 
   }
+
+  public virtual void _WhileLiving(){
+    
+    Mutate();
+    WhileLiving();
+
+  }
+
+  public virtual void WhileLiving(){}
+
+
+  public virtual void Mutate(){}
 
   public virtual void Embody( Form parent ){}
   public virtual void SetCount( Form parent ){}

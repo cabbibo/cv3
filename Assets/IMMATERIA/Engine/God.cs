@@ -84,6 +84,13 @@ public class God :  Cycle  {
     }
   }
 
+  public void OnDisable(){
+     for( int i = 0; i < lifeforms.Length; i++ ){
+        lifeforms[i]._Destroy(); 
+      }
+    
+  }
+
 }
 
 

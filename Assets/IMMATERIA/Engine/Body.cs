@@ -11,13 +11,22 @@ public class Body : Cycle {
   public Material material;
   public Form triangles;
   public Form verts;
+  private GameObject go;
 
 
   public virtual void _Create( Form verts , IndexForm triangles){
     _Create();
-    print( triangles );
     Create(  verts , triangles);
     Create();
+  }
+
+
+  public override void Destroy(){
+
+    Destroy(go);
+    mesh = null;
+    render = null;
+
   }
 
 
@@ -41,7 +50,7 @@ public class Body : Cycle {
     mesh.UploadMeshData (true);
 
 
-    GameObject go = new GameObject();
+    go = new GameObject();
     go.name = gameObject.name + " : BODY";
     go.transform.parent = gameObject.transform;
     go.AddComponent<MeshFilter>().mesh = mesh;
