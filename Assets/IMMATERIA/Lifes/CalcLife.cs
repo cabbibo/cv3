@@ -22,10 +22,15 @@ public class CalcLife : Life{
      
      values = new float[count*4];
 
+    _buffer.SetData(values);
+
 
 
   }
 
+  public override void _Destroy(){
+    if(_buffer != null){ _buffer.Release(); }
+  }
 
   public override void _SetInternal(){
     

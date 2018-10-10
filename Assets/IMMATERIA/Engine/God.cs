@@ -19,6 +19,7 @@ public class God :  Cycle  {
   public LifeForm[] lifeforms;
 
   public void OnEnable(){
+    print("ON ENABLE");
 
     for( int i = 0; i < lifeforms.Length; i++ ){
       lifeforms[i]._Create();
@@ -85,6 +86,8 @@ public class God :  Cycle  {
   }
 
   public void OnDisable(){
+
+    print("ON OnDisable"); 
      for( int i = 0; i < lifeforms.Length; i++ ){
         lifeforms[i]._Destroy(); 
       }

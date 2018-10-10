@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class PlaceParticlesOnMesh : LifeForm {
 
-  public Form particles;
-    public Life place;
+  public Material faceMaterial;
+  public Material cameraMaterial;
+  public bool showBody = true;
+  public LifeForm[] subs;
+
+  public PlacedDynamicMeshParticles particles;
+  public Life place;
+  public string fileName;
   public Life intersect;
   public Vector3 cameraUp;
   public Vector3 cameraLeft;
@@ -17,6 +23,7 @@ public class PlaceParticlesOnMesh : LifeForm {
   public TouchToRay touch;
 
   public MeshLifeForm skin;
+  public MeshFilter mesh;
 
 
 
@@ -24,6 +31,7 @@ public class PlaceParticlesOnMesh : LifeForm {
   public ParticleTransferTris bodyTris;
   public Life bodyTransfer;
   public Body body;
+  public Saveable saver;
 
 
   // Use this for initialization
@@ -36,13 +44,14 @@ public class PlaceParticlesOnMesh : LifeForm {
     Forms.Add(bodyVerts);
     Forms.Add(bodyTris);
     
+    mesh = skin.gameObject.GetComponent<MeshFilter>();
+  
     particles._Create(skin.verts);
     
     bodyVerts._Create(particles);
     bodyTris._Create(bodyVerts);
 
-
-  place._Create();
+    place._Create();
     intersect._Create();
     bodyTransfer._Create();
 
@@ -64,8 +73,6 @@ public class PlaceParticlesOnMesh : LifeForm {
 
     bodyTransfer.BindPrimaryForm("_VertBuffer", bodyVerts);
     bodyTransfer.BindForm("_ParticleBuffer", particles); 
-    
-
  
 
   }
@@ -75,24 +82,59 @@ public class PlaceParticlesOnMesh : LifeForm {
     particles._OnGestate(particles );
     bodyTris._OnGestate( particles );
     bodyVerts._OnGestate( particles );
+    particles.Embody( mesh );
+  
+
     body._Create( bodyVerts , bodyTris );
   }
+  
   public override void OnBirth(){
-    body.Show();
+   // body.Show();
   }
 
   public override void WhileLiving(float v){
 
 
-//    print(Camera.main);
-    cameraLeft = -Camera.main.transform.right;
-    cameraUp = Camera.main.transform.up;
-    transformFloats = HELP.GetMatrixFloats(transform.localToWorldMatrix);
+    if( Active == true ){
+      // print(Camera.main);
+      cameraLeft = -Camera.main.transform.right;
+      cameraUp = Camera.main.transform.up;
+      transformFloats = HELP.GetMatrixFloats(skin.gameObject.transform.localToWorldMatrix);
 
-    place.Live();
-    intersect.Live();
+      place.Live();
+      if( touch.Down == 1 ){
+        intersect.Live();
+      }
+
+
+       if( showBody == true ){
     bodyTransfer.Live();
+
     body.WhileLiving(1);
+    }else{
+      body.Hide();
+    }
+    }
+
+
+  }
+
+  public override void Activate(){
+    Active = true;
+    skin.GetComponent<MeshRenderer>().material = faceMaterial;
+    body.Show();
+    Saveable.Load(particles,fileName);
+    for( int i = 0; i < subs.Length; i++ ){
+      subs[i].Activate();
+    }
+  }
+
+  public override void Deactivate(){
+    body.Hide();
+    Active = false;
+    for( int i = 0; i < subs.Length; i++ ){
+      subs[i].Deactivate();
+    }
   }
 
 }

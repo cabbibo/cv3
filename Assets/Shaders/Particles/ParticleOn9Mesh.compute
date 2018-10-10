@@ -39,6 +39,8 @@ void PlacePoint(uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID) {
   int pID = threadID + u3GroupID.x * NR_THREADS;
 
   Vert vert = _VertBuffer[pID];
+
+  if( vert.used == 1){
   SkinnedVert v0 = _SkinnedBuffer[int(vert.triIDs.x)];
   SkinnedVert v1 = _SkinnedBuffer[int(vert.triIDs.y)];
   SkinnedVert v2 = _SkinnedBuffer[int(vert.triIDs.z)];
@@ -65,5 +67,5 @@ void PlacePoint(uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID) {
   vert.pos = mul( _Transform , float4( fPos , 1 )).xyz;
   
   _VertBuffer[pID] = vert;
-
+}
 }

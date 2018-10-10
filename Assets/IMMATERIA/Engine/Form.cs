@@ -64,10 +64,7 @@ public class Form : Cycle {
   public virtual void SetBufferType(){}
 
   public override void Destroy(){
-
     ReleaseBuffer();
-    created = false;
-
   }
 
 
@@ -78,7 +75,7 @@ public class Form : Cycle {
   }
 
   public float[] GetFloatData(){
-    float[] val = new float[count];
+    float[] val = new float[count*structSize];
     GetData(val);
     return val;
   }

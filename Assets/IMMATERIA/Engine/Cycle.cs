@@ -35,6 +35,7 @@ public class Cycle : MonoBehaviour{
   public virtual void _Create(){
     if( created == true ){ print( "THIS OBJECT IS BEIGN CREATED 2 TIMES"); }
     Create();
+    destroyed = false;
     created = true;
   }
 
@@ -153,6 +154,21 @@ public class Cycle : MonoBehaviour{
   */
 
   public virtual void _Destroy(){
+ 
+    created = false;
+    begunGestation = false;
+    gestating = false;
+    gestated = false;
+    begunBirth = false;
+    birthed = false;
+    birthing = false;
+    begunLive = false;
+    living = false;
+    lived = false;
+    begunDeath = false;
+    dying = false;
+    died = false;
+    destroyed = true;
     Destroy();
   }
 

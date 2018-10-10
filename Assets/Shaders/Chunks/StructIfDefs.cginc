@@ -4,6 +4,8 @@
       #pragma multi_compile __ Enable16Struct
       #pragma multi_compile __ Enable24Struct
       #pragma multi_compile __ Enable36Struct
+
+       #ifdef SHADER_API_D3D11
       #if defined(Enable9Struct) || defined(Enable12Struct) || defined(Enable16Struct) || defined(Enable24Struct) || defined(Enable36Struct) 
 
         #ifdef Enable9Struct
@@ -84,4 +86,5 @@
           float2 uv;
           float2 debug;
         };
+      #endif
       #endif

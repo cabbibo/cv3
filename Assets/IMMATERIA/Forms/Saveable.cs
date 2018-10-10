@@ -6,14 +6,9 @@ using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-public class Saveable : MonoBehaviour {
+public class Saveable {
 
-  public Form form;
-  public string fileName;
-
-
-
-  public void Save( string name ){
+  public static void Save( Form form , string name ){
 
     BinaryFormatter bf = new BinaryFormatter();
     FileStream stream = new FileStream(Application.dataPath + "/"+name+".dna",FileMode.Create);
@@ -28,7 +23,8 @@ public class Saveable : MonoBehaviour {
 
     stream.Close();
   }
-  public void Load(string name){
+
+  public static void Load(Form form , string name){
     if( File.Exists(Application.dataPath + "/"+name+".dna")){
       
       BinaryFormatter bf = new BinaryFormatter();
@@ -44,7 +40,7 @@ public class Saveable : MonoBehaviour {
 
       stream.Close();
     }else{
-      print("Why would you load something that doesn't exist?!??!?");
+      Debug.Log("Why would you load something that doesn't exist?!??!?");
     }
   }
 

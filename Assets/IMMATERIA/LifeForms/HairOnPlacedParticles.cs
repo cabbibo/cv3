@@ -7,6 +7,14 @@ using UnityEngine;
 
 public class HairOnPlacedParticles : LifeForm {
 
+
+  public float noiseSize;
+  public float noiseSpeed;
+  public float noiseForce;
+  public float normalForce;
+  public float dampening;
+  public float upForce;
+
   public Life SetHairPosition;
   public Life HairCollision;
   
@@ -24,6 +32,7 @@ public class HairOnPlacedParticles : LifeForm {
   public TubeVerts TubeVerts;
 
   public Body body;
+  public bool showBody = true;
 
   public float[] transformArray;
 
@@ -87,6 +96,13 @@ public class HairOnPlacedParticles : LifeForm {
     HairCollision.BindAttribute( "_HairLength"  , "length", Hair );
     HairCollision.BindAttribute( "_NumVertsPerHair" , "numVertsPerHair", Hair );
     HairCollision.BindAttribute( "transform" , "transformArray" , this );
+    HairCollision.BindAttribute( "_NoiseSpeed" , "noiseSpeed" , this );
+    HairCollision.BindAttribute( "_NoiseForce" , "noiseForce" , this );
+    HairCollision.BindAttribute( "_NoiseSize" , "noiseSize" , this );
+    HairCollision.BindAttribute( "_NormalForce" , "normalForce" , this );
+    HairCollision.BindAttribute( "_Dampening" , "dampening" , this );
+    HairCollision.BindAttribute( "_UpForce" , "upForce" , this );
+
 
 
   }
@@ -114,11 +130,16 @@ public class HairOnPlacedParticles : LifeForm {
     //HairCollision.shader.SetFloat("_HairLength", Hair.length ); 
     //HairCollision.shader.SetInt("_NumVertsPerHair", Hair.numVertsPerHair); 
     HairCollision.Live();
-   HairConstraint0.Live();
-   HairConstraint1.Live();
+    HairConstraint0.Live();
+    HairConstraint1.Live();
+
+    if( showBody == true ){
     HairTransfer.Live();
 
     body.WhileLiving(1);
+    }else{
+      body.Hide();
+    }
 
 
   }
@@ -126,5 +147,17 @@ public class HairOnPlacedParticles : LifeForm {
   public override void WhileDebug(){
     Base.WhileDebug();
   }
+
+
+  public override void Activate(){
+    Active = true;
+    body.Show();
+  }
+
+  public override void Deactivate(){
+    body.Hide();
+    Active = false;
+  }
+
 
 }

@@ -1,7 +1,6 @@
 ﻿Shader "PostTransfer/Basic" {
   Properties {
 
-    _Tex("", 2D) = "white" {}
     _Color ("Color", Color) = (1,1,1,1)
     
     [Toggle(Enable16Struct)] _Struct16("16 Struct", Float) = 0
@@ -26,8 +25,6 @@
 			#include "AutoLight.cginc"
 			#include "../Chunks/StructIfDefs.cginc"
 
-
-			sampler2D _Tex;
       float3 _Color;
 
 			StructuredBuffer<Vert> _TransferBuffer;

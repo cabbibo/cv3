@@ -14,11 +14,14 @@ public class MakeFaceMesh : MeshLifeForm {
   // Use this for initialization
   public override void Create(){
 
-    MeshFilter m = gameObject.AddComponent<MeshFilter>();
+    MeshFilter m = gameObject.GetComponent<MeshFilter>();
+    if( m == null ){ m = gameObject.AddComponent<MeshFilter>();  }
     mesh = face.Load(name);
+    mesh.RecalculateTangents();
     ((MutatingVerts)verts).mesh = mesh;
     m.mesh = mesh;
-    MeshRenderer r = gameObject.AddComponent<MeshRenderer>();
+    MeshRenderer r = gameObject.GetComponent<MeshRenderer>();
+    if( r == null ){ r = gameObject.AddComponent<MeshRenderer>(); }
     r.material = FaceMaterial;
 
     Forms.Add(verts);

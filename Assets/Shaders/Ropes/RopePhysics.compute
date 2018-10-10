@@ -16,6 +16,7 @@ float _SpringDistance;
 
 uint _NumVertsPerHair;
 float _HairLength;
+float _UpForce;
 
 float3 _HandL;
 float3 _HandR;
@@ -53,6 +54,12 @@ struct Base{
 };
 
 
+
+float _NormalForce;
+float _NoiseForce;
+float _NoiseSpeed;
+float _NoiseSize;
+float _Dampening;
 
 RWStructuredBuffer<Vert> _VertBuffer;
 RWStructuredBuffer<Base> _BaseBuffer;
@@ -102,9 +109,9 @@ void Set (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uint3 id 
     float3 s = float3(1,1,1);//mul( transform , float4(1,1,1,0)).xyz;
 
     float l = float(pID % _NumVertsPerHair ) / float(_NumVertsPerHair);
-    vert.pos  = bP + bN * l *(length(s)/3)* _HairLength;
+    //vert.pos  = bP + bN * l *(length(s)/3)* _HairLength;
     vert.uv = float2( l , float(bID)/float(_BaseBuffer_COUNT));
-    vert.oPos = vert.pos;//base.pos + base.nor * l + _HairLength;
+    //vert.oPos = vert.pos;//base.pos + base.nor * l + _HairLength;
 
     _VertBuffer[pID] = vert;
 
@@ -120,20 +127,23 @@ void Collision (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uin
   //int pID = id.x + id.y * gridX + id.z * gridX * gridY;
 
   uint pID = threadID + u3GroupID.x * NR_THREADS;
-  uint bID = pID / _NumVertsPerHair;
+  uint bID = (pID / _NumVertsPerHair) % _BaseBuffer_COUNT;
+  uint bID1 = (bID+1) % _BaseBuffer_COUNT;
   if( pID < _VertBuffer_COUNT && bID < _BaseBuffer_COUNT ){
 
     Vert vert = _VertBuffer[pID];
     Base base = _BaseBuffer[bID];
+    Base base1 = _BaseBuffer[bID1];
+    if( base.used == 1 && base1.used == 1 ){
 
     float3 bP = base.pos;//mul( transform,  float4(base.pos,1)).xyz;
     float3 bN = base.nor;//normalize(mul( transform,  float4(base.nor,0))).xyz;
     float3 s = float3(1,1,1);//mul( transform , float4(1,1,1,0)).xyz;
 
-    float3 force = bN * 1.5 * vert.uv.x;//float3( 0 , base.nor , 0.0 );
+    float3 force = float3(0,-3,-1)* _NormalForce;//float3( 0 , base.nor , 0.0 );
 
-    force += curlNoise( vert.pos * 1.4 + float3(0,_Time*.2,0) );
-    //force += float3(0,1.5,0);
+    //force += curlNoise( vert.pos * _NoiseSize + float3(0,_Time*_NoiseSpeed,0) ) * _NoiseForce;
+    //force += float3(0,_UpForce*vert.uv.x,0);
 
 
     //force += .2*normalize((_HandL-vert.pos))/pow(length(_HandL-vert.pos),4);
@@ -147,19 +157,40 @@ void Collision (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uin
  
 
     bool tb = false;
+
+    if( length(vert.pos) == 0 ){
+      vert.pos  = bP + bN * vert.uv.x * _HairLength;
+      vert.oPos = vert.pos;
+      tb = true;
+    }
+
+        if( length(vert.pos.x) == 1000 ){
+      vert.pos  = bP + bN * vert.uv.x * _HairLength;
+      vert.oPos = vert.pos;
+      tb = true;
+    }
+
     // If we are at the bottom, 
     if( vert.uv.x == 0 ){ 
       vert.pos = bP; 
       vert.oPos = bP;
       tb = true;
+      vert.nor = bN;
+    }else if(vert.uv.x >= 1-(1.8/float(_NumVertsPerHair))){
+      vert.pos = base1.pos; 
+      vert.oPos = base1.pos;
+      tb = true;
+      vert.nor = -base1.nor;//bN;
     }else{
+       Vert vDown = _VertBuffer[ pID - 1 ];
+       vert.nor = normalize(vert.pos - vDown.pos);
       //vert.pos = bP + bN * .1 *vert.uv.x; 
       //vert.oPos = bP+ bN * .1 *vert.uv.x; 
       //tb = true;
 
     }
 
-    if( length(vert.pos) > .2 ){
+    /*if( length(vert.pos) > .2 ){
       vert.pos = bP + bN * .1 * vert.uv.x; 
       vert.oPos = bP+ bN * .1 * vert.uv.x; 
       tb = true; 
@@ -169,11 +200,13 @@ void Collision (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uin
       vert.pos = bP + bN * .1 * vert.uv.x; 
       vert.oPos = bP+ bN * .1 * vert.uv.x; 
       tb = true; 
-    }
+    }*/
+
+    //vert.nor = normalize(vert.pos - vert.oPos);
 
     if( _Delta  < .1 && tb == false ){
 
-      float dampening = .9;//.99999;// - vert.life * .01;
+      float dampening =_Dampening;//.99999;// - vert.life * .01;
       float3 next = vert.pos + vel * dampening + force * _Delta * _Delta;
 
       vert.oPos = vert.pos;
@@ -182,6 +215,11 @@ void Collision (uint threadID : SV_GroupIndex, uint3 u3GroupID : SV_GroupID, uin
     }
 
     _VertBuffer[pID] = vert;
+  }else{
+    vert.pos = float3(1000,0,0);
+    vert.oPos = float3(1000,0,0);
+    _VertBuffer[pID] = vert;
+  }
 
   }
   
